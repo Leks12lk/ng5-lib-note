@@ -7,7 +7,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 // redux
 import { NgRedux, NgReduxModule } from '@angular-redux/store';
 import { IAppState, rootReducer, INITIAL_STATE } from './store';
-
+//routing
 import { AppRoutingModule } from './app-routing.module';
 
 import { AppComponent } from './app.component';
@@ -26,7 +26,7 @@ import { AddBookFormComponent } from './add-book-form/add-book-form.component';
     FormsModule,
     AppRoutingModule,
     NgbModule.forRoot(),
-    NgReduxModule
+    NgReduxModule   
   ],
   providers: [],
   bootstrap: [AppComponent]

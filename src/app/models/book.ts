@@ -3,8 +3,8 @@ import { Priority } from "./priority";
 
 export class Book implements IBook {
     //id: number;
-    isRead: boolean;
-    sendNotification: boolean;
+    isRead: boolean = false;
+    sendNotification: boolean = false;
 
     constructor(
         public id: number,
@@ -13,8 +13,7 @@ export class Book implements IBook {
         public category: string,
         public priority: Priority
     ) {
-        this.isRead = false;
-        this.sendNotification = false;
+       
     }
 
 }

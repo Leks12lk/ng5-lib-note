@@ -17,6 +17,9 @@ export class AddBookFormComponent implements OnInit {
   closeResult: string;
   modalRef: any;
 
+  date: any;
+  time = {hour: 0, minute: 0};
+
   model: IBook = {
     id: 0,
     title: '',
