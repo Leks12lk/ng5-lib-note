@@ -13,13 +13,17 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BooksListComponent } from './books-list/books-list.component';
 import { AddBookFormComponent } from './add-book-form/add-book-form.component';
+import { RegisterFormComponent } from './register-form/register-form.component';
+import { LoginFormComponent } from './login-form/login-form.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     BooksListComponent,
-    AddBookFormComponent
+    AddBookFormComponent,
+    RegisterFormComponent,
+    LoginFormComponent
   ],
   imports: [
     BrowserModule,

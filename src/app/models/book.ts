@@ -4,7 +4,7 @@ import { Priority } from "./priority";
 export class Book implements IBook {
     //id: number;
     isRead: boolean = false;
-    sendNotification: boolean = false;
+    sendNotification: boolean = false;    
 
     constructor(
         public id: number,

@@ -23,12 +23,12 @@ export class AuthService {
 	login(email: string, password: string) {
 		return this.afAuth.auth.signInWithEmailAndPassword(email, password)
 			.then(resolve => {			
-        // here will be navigate to books list page
-				//this.router.navigate(['books']);
+        	// here will be navigate to books list page
+			this.router.navigate(['books']);
 			})
 	}
 
-	signUp(email: string, password: string, userName: string) {
+	register(email: string, password: string, userName: string) {
 		return this.afAuth.auth.createUserWithEmailAndPassword(email, password)
 			.then(user => {
 				this.authState = user;		

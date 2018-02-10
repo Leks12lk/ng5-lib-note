@@ -12,6 +12,8 @@ import { Actions } from "../actions";
 export class BooksListComponent implements OnInit {
   @select() books: Book[];
 
+  @select() categoriesTags: string[];
+
   constructor(private ngRedux: NgRedux<IAppState>) { }
 
   ngOnInit() {
