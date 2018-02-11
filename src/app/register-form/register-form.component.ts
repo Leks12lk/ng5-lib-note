@@ -19,9 +19,10 @@ export class RegisterFormComponent implements OnInit {
   }
 
   register() {
+    //console.log(this.email, this.password, this.userName);
     this.authService.register(this.email, this.password, this.userName)
       .then(resolve => this.router.navigate(['books']))
-      .catch(error => this.errorMessage = error.message);
+      .catch(error => this.errorMessage = error.message);    
   }
 
 }

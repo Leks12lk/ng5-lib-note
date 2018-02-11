@@ -2,7 +2,7 @@
 <app-add-book-form></app-add-book-form>
 
 <h6>Books List:</h6>
-<div *ngIf="(books | async)?.length > 0; else emptyList">
+<div *ngIf="(books$ | async)?.length > 0; else emptyList">
   <table class="table">
     <thead class="thead-dark">
       <tr>          
@@ -13,7 +13,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let book of books | async" [class.table-dark]="book.isRead">
+      <tr *ngFor="let book of books$ | async" [class.table-dark]="book.isRead">
          
           <td>{{ book.title }}</td>
           <td>{{ book.author }}</td>

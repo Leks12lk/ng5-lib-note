@@ -52,6 +52,8 @@ export function rootReducer(state, action) {
 				],
 				lastUpdated: new Date()
 			});
+		case Actions.LOAD_BOOKS:
+			return tassign(state, {books: action.books});
 
 	}
 

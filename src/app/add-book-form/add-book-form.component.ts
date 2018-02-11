@@ -7,6 +7,7 @@ import { Actions } from "../actions";
 // ng-bootstrap modal
 import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 import { NgForm } from "@angular/forms/";
+import { BookService } from "../services/book.service";
 
 @Component({
   selector: 'app-add-book-form',
@@ -21,7 +22,7 @@ export class AddBookFormComponent implements OnInit {
   time = {hour: 0, minute: 0};
 
   model: IBook = {
-    id: 0,
+    //id: '',
     title: '',
     author: '',
     category: '',
@@ -30,13 +31,17 @@ export class AddBookFormComponent implements OnInit {
     sendNotification: false
   }
 
-  constructor(private ngRedux: NgRedux<IAppState>, private modalService: NgbModal) { }
+  constructor(
+    private ngRedux: NgRedux<IAppState>, 
+    private modalService: NgbModal,
+    private bookService: BookService) { }
 
   ngOnInit() {
   }
 
   addBook(addBookForm : NgForm) {
-    this.ngRedux.dispatch({type: Actions.ADD_BOOK, book: this.model});
+    // this.ngRedux.dispatch({type: Actions.ADD_BOOK, book: this.model});
+    this.bookService.addBook(this.model);
     // reset the form values
     addBookForm.reset();
     // close the modal

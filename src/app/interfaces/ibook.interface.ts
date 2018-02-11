@@ -1,7 +1,8 @@
 import { Priority } from "../models/priority";
 
 export interface IBook {
-    id: number,
+    //id: string,
+    $key?: string,
     title: string,
     author: string,
     category: string,
