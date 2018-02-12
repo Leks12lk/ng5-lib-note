@@ -8,6 +8,7 @@ import { Actions } from "../actions";
 import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 import { NgForm } from "@angular/forms/";
 import { BookService } from "../services/book.service";
+import { BookStatus } from "../models/book-status";
 
 @Component({
   selector: 'app-add-book-form',
@@ -22,13 +23,14 @@ export class AddBookFormComponent implements OnInit {
   time = {hour: 0, minute: 0};
 
   model: IBook = {
-    //id: '',
     title: '',
     author: '',
     category: '',
     priority: Priority.Low,
     isRead: false,
-    sendNotification: false
+    sendNotification: false,
+    status: BookStatus.ToRead,
+    notes: ''
   }
 
   constructor(

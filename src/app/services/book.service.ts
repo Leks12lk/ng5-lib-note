@@ -26,6 +26,7 @@ export class BookService {
         console.log('books servive user', user);
         if(user !== undefined && user !== null) {
           this.user = user;
+          this.userId = user.uid;
           this.getBooks();
         }
   
@@ -43,32 +44,25 @@ export class BookService {
   // Return an observable list with optional query
   // You will usually call this from OnInit in a component
   getBooks(){
-    var userId = '';
-    if(this.user) {
-      userId = this.user.uid;
-    }
-    console.log('getBooks', userId);
-    if (!userId) return;
-    this.db.list(`books/${userId}`).valueChanges().subscribe(books => {
+    // var userId = '';
+    // if(this.user) {
+    //   userId = this.user.uid;
+    // }
+    console.log('getBooks', this.userId);
+    if (!this.userId ) return;
+    this.db.list(`books/${this.userId}`).valueChanges().subscribe(books => {
       this.ngRedux.dispatch({type: Actions.LOAD_BOOKS, books: books});
     })
    
   }
-
-  getBooks1(): Observable<Book[]> {
-    var userId = '';
-    if(this.user) {
-      userId = this.user.uid;
-    }
-    console.log('getBooks1', userId);
-    if (!userId) return;
-    return this.db.list(`books/${userId}`).valueChanges() as Observable<Book[]>;
-  }
+ 
 
   addBook(book: Book)  {
+    //var userId = this.user.uid
+    console.log('addBook', this.userId);
     if (!this.userId) return;
     this.db.list(`books/${this.userId}`).push(book);
-    //this.ngRedux.dispatch({type: Actions.ADD_BOOK, book: book})
+    this.ngRedux.dispatch({type: Actions.ADD_BOOK, book: book})
   }
 
   // getUser(): any {

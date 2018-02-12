@@ -1,12 +1,14 @@
 import { Priority } from "../models/priority";
+import { BookStatus } from "../models/book-status";
 
 export interface IBook {
-    //id: string,
     $key?: string,
     title: string,
     author: string,
     category: string,
     priority: Priority,
     isRead: boolean,
-    sendNotification: boolean
+    sendNotification: boolean,
+    status: BookStatus,
+    notes: string
 }

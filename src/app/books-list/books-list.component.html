@@ -1,19 +1,22 @@
 
-<app-add-book-form></app-add-book-form>
+
 
 <h6>Books List:</h6>
 <div *ngIf="(books$ | async)?.length > 0; else emptyList">
   <table class="table">
     <thead class="thead-dark">
       <tr>          
-          <th>Title</th>
+          <th (click)="sort('title')">
+            Title
+            <i class="fa fa-close"></i>
+          </th>
           <th>Author</th>
           <th>Priority</th>
           <th></th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let book of books$ | async" [class.table-dark]="book.isRead">
+      <tr *ngFor="let book of books" [class.table-dark]="book.isRead">
          
           <td>{{ book.title }}</td>
           <td>{{ book.author }}</td>

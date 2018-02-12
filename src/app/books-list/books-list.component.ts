@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { NgRedux, select } from '@angular-redux/store';
 import { IAppState } from "../store";
 import { Book } from "../models/book";
@@ -12,25 +12,26 @@ import { Observable } from "rxjs/Observable";
   styleUrls: ['./books-list.component.scss']
 })
 export class BooksListComponent implements OnInit {
+  books: Book[];
   @select((s:IAppState) => s.books) books$;
-  //books: Observable<Book[]>;
- // books: Book[];
+  @Input() activeTab: string;
 
   @select() categoriesTags: string[];
 
   constructor(
     private ngRedux: NgRedux<IAppState>,
     private bookService: BookService) {
-     }
+    }
 
   ngOnInit() {
-     //this.books = this.bookService.getBooks();
-     //this.books = this.getBooks();
-  }
-
-  // ngDoCheck() {
-  //   this.books = this.bookService.getBooks();
-  // }
+     this.books$.subscribe(books => {
+       if(this.activeTab === 'all') {
+        this.books = books;
+       } else {
+        this.books = books.filter(b => b.status.toString() === this.activeTab);
+       }
+     });
+  }  
 
   removeBook(book) {
     //this.ngRedux.dispatch({type: Actions.REMOVE_BOOK, id: book.id})
@@ -44,8 +45,26 @@ export class BooksListComponent implements OnInit {
     alert('Here will be modal to edit book with a title ' + book.title);
   }
 
-  getBooks() {
-    //return this.bookService.getBooks();
+  sort(property: string) {
+    console.log('sort', property);
+    this.books.sort(this.descPropComparator(property));
   }
+
+  // compare(a,b, property) {
+  //   if (a[property] < b[property])
+  //     return -1;
+  //   if (a[property] > b[property])
+  //     return 1;
+  //   return 0;
+  // }
+
+  ascPropComparator(propName) {
+    return (a, b) => a[propName] == b[propName] ? 0 : a[propName] < b[propName] ? -1 : 1;
+  }
+
+  descPropComparator(propName) {
+    return (a, b) => a[propName] == b[propName] ? 0 : a[propName] < b[propName] ? 1 : -1;
+  }
+  
 
 }
