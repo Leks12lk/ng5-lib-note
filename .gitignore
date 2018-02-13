@@ -43,3 +43,4 @@ testem.log
 Thumbs.db
 /.vs/ng5-lib-note/v15/Browse.VC.opendb
 /.vs/ng5-lib-note/v15/Browse.VC.db
+/.vs/slnx.sqlite
