@@ -1,0 +1,12 @@
+<div id="search-component">
+  <div class="form-group">
+    <input #searchBox id="search-box" (keyup)="filterBook(searchBox.value)" placeholder="search book" class="form-control"/>
+  </div>
+  <ul class="search-result">
+    <li *ngFor="let book of filteredBooks | async" >
+      <a routerLink="/book/{{book.$key}}">
+        {{book.title}}
+      </a>
+    </li>
+  </ul>
+</div>

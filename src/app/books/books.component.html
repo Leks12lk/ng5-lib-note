@@ -1,13 +1,13 @@
-<div class="container">
+﻿<div class="container">
   <div class="row">
     <div class="col-md-9">
-      <app-add-book-form></app-add-book-form>      
+      <app-add-book-form></app-add-book-form>
       <ngb-tabset>
          <ngb-tab title="All">
           <ng-template ngbTabContent>
             <app-books-list [activeTab]="'all'"></app-books-list>
           </ng-template>
-        </ngb-tab> 
+        </ngb-tab>
         <ngb-tab title="To Read">
           <ng-template ngbTabContent>
             <app-books-list [activeTab]="'toRead'"></app-books-list>
@@ -22,13 +22,15 @@
           <ng-template ngbTabContent>
             <app-books-list [activeTab]="'completed'"></app-books-list>
           </ng-template>
-        </ngb-tab> 
-       
+        </ngb-tab>
+
       </ngb-tabset>
-      
+
     </div>
     <div class="col-md-3">
-      Here will be a sidebar
+      <aside id="sidebar" class="sidebar">
+        <app-search-block></app-search-block>
+      </aside>
     </div>
   </div>
-</div> 
+</div>

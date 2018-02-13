@@ -23,6 +23,7 @@ import { AngularFireModule } from "angularfire2";
 import { environment } from "../environments/environment";
 import { BooksComponent } from './books/books.component';
 import { NavbarComponent } from './navbar/navbar.component';
+import { SearchBlockComponent } from './search-block/search-block.component';
 
 
 @NgModule({
@@ -33,7 +34,8 @@ import { NavbarComponent } from './navbar/navbar.component';
     RegisterFormComponent,
     LoginFormComponent,
     BooksComponent,
-    NavbarComponent
+    NavbarComponent,
+    SearchBlockComponent
   ],
   imports: [
     BrowserModule,

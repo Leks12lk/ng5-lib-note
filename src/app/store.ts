@@ -8,22 +8,24 @@ export interface IAppState {
 	user: IUser,
 	books: IBook[],
 	categoriesTags: string[],
-	lastUpdate: Date
+	lastUpdate: Date,
+  filteredBooks: IBook[]
 }
 
 export const INITIAL_STATE: IAppState = {
 	user: null,
 	books: Books,
 	categoriesTags: [],
-	lastUpdate: new Date()
+	lastUpdate: new Date(),
+  filteredBooks: []
 }
 
 export function rootReducer(state, action) {
 	switch(action.type) {
 		case Actions.ADD_BOOK:
 			action.book.id = state.books.length + 1;
-			return tassign(state, { 
-				books: state.books.concat(tassign({},action.book)), lastUpdate: new Date() 
+			return tassign(state, {
+				books: state.books.concat(tassign({},action.book)), lastUpdate: new Date()
 			});
 		case Actions.REMOVE_BOOK:
 			return tassign(state, {
@@ -54,7 +56,10 @@ export function rootReducer(state, action) {
 			});
 		case Actions.LOAD_BOOKS:
 			return tassign(state, {books: action.books});
-
+    case Actions.SEARCH_BOOK:
+      return tassign(state,{
+        filteredBooks: action.term.length > 0 ? state.books.filter(item => item.title.search(action.term) !== -1 || item.author.search(action.term) !== -1) : []
+      })
 	}
 
 	return state;
