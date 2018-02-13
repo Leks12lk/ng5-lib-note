@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { NgRedux, select } from '@angular-redux/store';
 import {IAppState} from '../store';
-import { Book } from "../models/book";
+import { BookService } from "../services/book.service";
+import {Priority} from '../models/priority';
 import { Actions } from "../actions";
-import { Observable } from 'rxjs/Observable';
-import { of } from 'rxjs/observable/of';
+
 
 @Component({
   selector: 'app-search-block',
@@ -15,14 +15,32 @@ export class SearchBlockComponent implements OnInit {
   @select() filteredBooks;
 
   constructor(
-    private ngRedux: NgRedux<IAppState>
+    private ngRedux: NgRedux<IAppState>,
+    private bookService: BookService
   ) { }
 
   ngOnInit() {
-    console.log("+", this.filteredBooks);
   }
 
   filterBook(term: string) {
     this.ngRedux.dispatch({type: Actions.SEARCH_BOOK, term: term});
+  }
+
+  selectPriority(selectTerm: string, searchTerm: string) {
+    this.bookService.getBooks(selectTerm);
+    this.filterBook(searchTerm);
+  }
+
+  priorityCSSClass(option: Priority) {
+    switch (option) {
+      case Priority.Low:
+        return 'btn-success';
+      case Priority.Medium:
+        return 'btn-warning';
+      case Priority.High:
+        return 'btn-danger';
+      default:
+        return 'btn-default';
+    }
   }
 }

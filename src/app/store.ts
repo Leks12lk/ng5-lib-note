@@ -1,8 +1,9 @@
 import { IUser } from "./interfaces/iuser.interface";
 import { IBook } from "./interfaces/ibook.interface";
-import { Books } from "./mockdata/books";
+//import { Books } from "./mockdata/books";
 import { Actions } from "./actions";
 import { tassign } from 'tassign';
+import {Priority} from './models/priority';
 
 export interface IAppState {
 	user: IUser,
@@ -10,15 +11,16 @@ export interface IAppState {
 	categoriesTags: string[],
 	lastUpdate: Date,
   filteredBooks: IBook[]
+
 }
 
 export const INITIAL_STATE: IAppState = {
 	user: null,
-	books: Books,
+	books: [],
 	categoriesTags: [],
 	lastUpdate: new Date(),
   filteredBooks: []
-}
+};
 
 export function rootReducer(state, action) {
 	switch(action.type) {
@@ -55,11 +57,13 @@ export function rootReducer(state, action) {
 				lastUpdated: new Date()
 			});
 		case Actions.LOAD_BOOKS:
-			return tassign(state, {books: action.books});
+			return tassign(state, {
+			  books: action.selectTerm.length > 0 ? action.books.filter(book => book.priority === action.selectTerm) : action.books,
+			});
     case Actions.SEARCH_BOOK:
       return tassign(state,{
         filteredBooks: action.term.length > 0 ? state.books.filter(item => item.title.search(action.term) !== -1 || item.author.search(action.term) !== -1) : []
-      })
+      });
 	}
 
 	return state;

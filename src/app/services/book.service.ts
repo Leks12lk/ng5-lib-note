@@ -21,15 +21,15 @@ export class BookService {
       private db: AngularFireDatabase,
       private afAuth: AngularFireAuth,
       private ngRedux: NgRedux<IAppState>
-    ) { 
+    ) {
       this.afAuth.authState.subscribe(user => {
         console.log('books servive user', user);
         if(user !== undefined && user !== null) {
           this.user = user;
           this.userId = user.uid;
-          this.getBooks();
+          this.getBooks("");
         }
-  
+
         // this.getUser().subscribe((user) => {
         //   this.userName = user.displayName;
         // });
@@ -38,12 +38,12 @@ export class BookService {
       // this.getBooks1().subscribe(books => {
       //   this.books = books;
       // })
-      
+
     }
 
   // Return an observable list with optional query
   // You will usually call this from OnInit in a component
-  getBooks(){
+  getBooks(selectTerm): Observable<Book[]> {
     // var userId = '';
     // if(this.user) {
     //   userId = this.user.uid;
@@ -51,11 +51,11 @@ export class BookService {
     console.log('getBooks', this.userId);
     if (!this.userId ) return;
     this.db.list(`books/${this.userId}`).valueChanges().subscribe(books => {
-      this.ngRedux.dispatch({type: Actions.LOAD_BOOKS, books: books});
+      this.ngRedux.dispatch({type: Actions.LOAD_BOOKS, books: books, selectTerm: selectTerm});
     })
-   
+
   }
- 
+
 
   addBook(book: Book)  {
     //var userId = this.user.uid
