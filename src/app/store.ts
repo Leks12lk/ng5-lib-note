@@ -84,29 +84,30 @@ export function rootReducer(state, action) {
 
 
 function filterBooks(action, state) {
-  function compareArray(arr1: string[], arr2: string[]) {
-    let resultArray: boolean[] = [];
-    for(let i = 0; i < arr1.length; i ++) {
-      let itemResult:boolean = arr2.indexOf(arr1[i]) !== -1;
-      resultArray.push(itemResult);
-    }
-    return resultArray.indexOf(true) !== -1
-  }
+	
 	let priorityFilteredBooks = action.searchTerms.priorityTerm.length > 0
-		? state.books.filter(book => book.priority === action.searchTerms.priorityTerm)
-		: state.books;
+			? state.books.filter(book => book.priority === action.searchTerms.priorityTerm)
+			: state.books;
 
-  let textFilteredBooks = action.searchTerms.textTerm.length > 0
-		? priorityFilteredBooks.filter(
-				item => item.title.toLowerCase().search(action.searchTerms.textTerm.toLowerCase()) !== -1
-				|| item.author.toLowerCase().search(action.searchTerms.textTerm.toLowerCase()) !== -1
-		)
-		: priorityFilteredBooks;
-  let categoryFilteredBooks = action.searchTerms.categoryTerm.length > 0
-    ? textFilteredBooks.filter(book => compareArray(book.category, action.searchTerms.categoryTerm))
-    : textFilteredBooks;
+	let textFilteredBooks = action.searchTerms.textTerm.length > 0
+			? priorityFilteredBooks.filter(
+					item => item.title.toLowerCase().search(action.searchTerms.textTerm.toLowerCase()) !== -1
+					|| item.author.toLowerCase().search(action.searchTerms.textTerm.toLowerCase()) !== -1
+			)
+			: priorityFilteredBooks;
+
+ 
+	let categoryFilteredBooks = action.searchTerms.categoryTerm.length > 0
+			? textFilteredBooks.filter(book => compareArray(book.categories, action.searchTerms.categoryTerm))
+			: textFilteredBooks; 
 
   return categoryFilteredBooks;
+}
+
+
+function compareArray(arr1: string[], arr2: string[]) {
+	if(!arr1 || !arr2) return false;
+	return arr1.some(r => arr2.indexOf(r) !== -1);
 }
 
 

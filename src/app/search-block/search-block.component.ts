@@ -3,10 +3,12 @@ import { NgRedux, select } from '@angular-redux/store';
 import {IAppState} from '../store';
 import { Actions } from "../actions";
 
-interface ISearchTerms {
-  textTerm: string,
-  priorityTerm: string,
-  categoryTerm: string[]
+class SearchTerms {
+  constructor(
+    public textTerm: string='', 
+    public priorityTerm: string='',
+    public categoryTerm: string[] = []
+  ) {}
 }
 
 @Component({
@@ -18,6 +20,9 @@ export class SearchBlockComponent implements OnInit {
   @select((s:IAppState) => s.categories) categories$;
   selectedCategories: string[] = [];
 
+  textTerm: string = '';
+  priorityTerm: string = '';
+
   constructor(
     private ngRedux: NgRedux<IAppState>
   ) { }
@@ -25,15 +30,19 @@ export class SearchBlockComponent implements OnInit {
   ngOnInit() {
   }
 
-  filterBook(searchTerms: ISearchTerms) {
-    this.ngRedux.dispatch({type: Actions.SEARCH_BOOK, searchTerms: searchTerms});
+  filterBook() {   
+    this.ngRedux.dispatch({type: Actions.SEARCH_BOOK, 
+      searchTerms: new SearchTerms(this.textTerm, this.priorityTerm, this.selectedCategories)});
   }
 
-  toggleSelectedCategory(searchTerms, categoryName) {
-    this.selectedCategories.indexOf(categoryName) === -1
-      ? this.selectedCategories.push(categoryName)
-      : this.selectedCategories.splice(this.selectedCategories.indexOf(categoryName), 1);
-    this.filterBook(searchTerms);
+  toggleSelectedCategory(categoryName) {
+    let index = this.selectedCategories.indexOf(categoryName);
+    if(index === -1) {
+      this.selectedCategories.push(categoryName)
+    } else {
+      this.selectedCategories.splice(this.selectedCategories.indexOf(categoryName), 1);
+    }
+    this.filterBook();
   }
 
   ifSelected(target: string) {

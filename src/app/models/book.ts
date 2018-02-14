@@ -11,7 +11,7 @@ export class Book implements IBook {
     constructor(
         public title:string,
         public author: string,
-        public category: string[],
+        public categories: string[],
         public priority: Priority,
         public notes: string
     ) {

@@ -26,7 +26,7 @@ export class AddBookFormComponent implements OnInit {
   model: IBook = {
     title: '',
     author: '',
-    category: [],
+    categories: [],
     priority: Priority.Low,
     isRead: false,
     sendNotification: false,
@@ -52,12 +52,12 @@ export class AddBookFormComponent implements OnInit {
   }
 
   addBookCategory(categoryName: string) {
-    const categoriesArray = this.model.category;
+    const categoriesArray = this.model.categories;
     categoriesArray.indexOf(categoryName) === -1 ? categoriesArray.push(categoryName) : null;
   }
 
   removeBookCategory(categoryName: string) {
-    const categoriesArray = this.model.category;
+    const categoriesArray = this.model.categories;
     categoriesArray.splice(categoriesArray.indexOf(categoryName), 1);
   }
 
