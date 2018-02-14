@@ -26,6 +26,7 @@ import { environment } from "../environments/environment";
 import { BooksComponent } from './books/books.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { SearchBlockComponent } from './search-block/search-block.component';
+import { UserProfileComponent } from './user-profile/user-profile.component';
 
 
 @NgModule({
@@ -37,7 +38,8 @@ import { SearchBlockComponent } from './search-block/search-block.component';
     LoginFormComponent,
     BooksComponent,
     NavbarComponent,
-    SearchBlockComponent
+    SearchBlockComponent,
+    UserProfileComponent
   ],
   imports: [
     BrowserModule,

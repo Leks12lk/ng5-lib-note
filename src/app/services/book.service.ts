@@ -28,6 +28,7 @@ export class BookService {
           this.user = user;
           this.userId = user.uid;
           this.getBooks();
+          this.getCategories();
         }
 
         // this.getUser().subscribe((user) => {
@@ -57,9 +58,7 @@ export class BookService {
   }
 
 
-  addBook(book: Book)  {
-    //var userId = this.user.uid
-    console.log('addBook', this.userId);
+  addBook(book: Book)  {  
     if (!this.userId) return;
     this.db.list(`books/${this.userId}`).push(book);
     this.ngRedux.dispatch({type: Actions.ADD_BOOK, book: book})
@@ -70,5 +69,19 @@ export class BookService {
   //   let path = `/users/${userId}`;
   //   return this.db.object(path).valueChanges();
   // }
+
+  getCategories(): Observable<string[]> {
+    if (!this.userId ) return;
+    this.db.list(`categories/${this.userId}`).valueChanges().subscribe(cats => {
+      this.ngRedux.dispatch({type: Actions.LOAD_CATEGORIES, categories: cats});
+    })
+  }
+
+  addCategory(cat: string)  {  
+    if (!this.userId) return;
+    this.db.list(`categories/${this.userId}`).push(cat);
+    this.ngRedux.dispatch({type: Actions.ADD_BOOK, category: cat});
+  }
+
 }
 

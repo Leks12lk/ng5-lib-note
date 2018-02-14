@@ -8,24 +8,24 @@ import {Priority} from './models/priority';
 export interface IAppState {
 	user: IUser,
 	books: IBook[],
-	categoriesTags: string[],
+	categories: string[],
 	lastUpdate: Date,
-  filteredBooks: IBook[]
+  	filteredBooks: IBook[]
 
 }
 
 export const INITIAL_STATE: IAppState = {
 	user: null,
 	books: [],
-	categoriesTags: [],
+	categories: [],
 	lastUpdate: new Date(),
-  filteredBooks: []
+  	filteredBooks: []
 };
 
 export function rootReducer(state, action) {
 	switch(action.type) {
 		case Actions.ADD_BOOK:
-			action.book.id = state.books.length + 1;
+			//action.book.id = state.books.length + 1;
 			return tassign(state, {
 				books: state.books.concat(tassign({},action.book)), 
 				lastUpdate: new Date()
@@ -59,15 +59,25 @@ export function rootReducer(state, action) {
 			});
 		case Actions.LOAD_BOOKS:
 			return tassign(state, {
-			  books: action.books,
-				filteredBooks: action.books,
-				lastUpdated: new Date()
+			  	books: action.books,
+				filteredBooks: action.books
 			});
-    case Actions.SEARCH_BOOK:			
-      return tassign(state,{
-				 filteredBooks: filterBooks(action, state),
-				 lastUpdated: new Date()				
-      });
+		case Actions.SEARCH_BOOK:			
+			return tassign(state,{
+						filteredBooks: filterBooks(action, state),
+						lastUpdated: new Date()				
+			});
+	
+		case Actions.LOAD_CATEGORIES:
+			return tassign(state, {
+				categories: action.categories
+			});
+		case Actions.ADD_CATEGORY:
+			return tassign(state, {
+				categories: state.categories.concat(tassign({},action.category)), 
+				lastUpdate: new Date()
+			});
+
 	}
 
 	return state;

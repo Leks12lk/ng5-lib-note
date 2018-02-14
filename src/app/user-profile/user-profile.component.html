@@ -1,0 +1,20 @@
+<ul>
+  <li *ngFor="let cat of categories$ | async">
+    {{ cat }}
+  </li>
+</ul>
+
+<form #categoryForm="ngForm" (submit)="addCategory(categoryForm)">
+    <div class="form-group">
+        <label for="category">New Category</label>
+
+        <input type="text" 
+        class="form-control" 
+        [(ngModel)]="category"
+        id="category"
+        name="category"
+        placeholder="category"
+        required>          
+    </div>   
+
+  </form>
