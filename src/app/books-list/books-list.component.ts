@@ -14,7 +14,7 @@ import { Observable } from "rxjs/Observable";
 export class BooksListComponent implements OnInit {
   books: Book[];
   @select((s:IAppState) => s.books) books$;
-  @select() filteredBooks;
+  @select((s:IAppState) => s.filteredBooks) filteredBooks$;  
   @Input() activeTab: string;
 
   @select() categoriesTags: string[];
@@ -25,7 +25,7 @@ export class BooksListComponent implements OnInit {
     }
 
   ngOnInit() {
-     this.books$.subscribe(books => {
+     this.filteredBooks$.subscribe(books => {
        if(this.activeTab === 'all') {
         this.books = books;
        } else {

@@ -16,7 +16,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let book of filteredBooks | async" [class.table-dark]="book.isRead">
+      <tr *ngFor="let book of books" [class.table-dark]="book.isRead">
 
           <td>{{ book.title }}</td>
           <td>{{ book.author }}</td>

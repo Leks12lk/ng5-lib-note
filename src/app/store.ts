@@ -27,7 +27,8 @@ export function rootReducer(state, action) {
 		case Actions.ADD_BOOK:
 			action.book.id = state.books.length + 1;
 			return tassign(state, {
-				books: state.books.concat(tassign({},action.book)), lastUpdate: new Date()
+				books: state.books.concat(tassign({},action.book)), 
+				lastUpdate: new Date()
 			});
 		case Actions.REMOVE_BOOK:
 			return tassign(state, {
@@ -59,16 +60,33 @@ export function rootReducer(state, action) {
 		case Actions.LOAD_BOOKS:
 			return tassign(state, {
 			  books: action.books,
-        filteredBooks: action.books
+				filteredBooks: action.books,
+				lastUpdated: new Date()
 			});
-    case Actions.SEARCH_BOOK:
-      let priorityFilteredBooks = action.priorityTerm.length > 0 ? state.books.filter(book => book.priority === action.priorityTerm) : state.books;
+    case Actions.SEARCH_BOOK:			
       return tassign(state,{
-        filteredBooks: action.textTerm.length > 0 ? priorityFilteredBooks.filter(item => item.title.search(action.textTerm) !== -1 || item.author.search(action.textTerm) !== -1) : priorityFilteredBooks
+				 filteredBooks: filterBooks(action, state),
+				 lastUpdated: new Date()				
       });
 	}
 
 	return state;
+}
+
+
+function filterBooks(action, state) {
+	let priorityFilteredBooks = action.priorityTerm.length > 0 
+		? state.books.filter(book => book.priority === action.priorityTerm) 
+		: state.books;
+
+		let textFilteredBooks = action.textTerm.length > 0 
+		? priorityFilteredBooks.filter(
+				item => item.title.toLowerCase().search(action.textTerm.toLowerCase()) !== -1 
+				|| item.author.toLowerCase().search(action.textTerm.toLowerCase()) !== -1
+		) 
+		: priorityFilteredBooks
+
+		return textFilteredBooks;
 }
 
 
