@@ -4,6 +4,8 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 // it enables javascript for bootstrap
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+// font-awesome
+import { AngularFontAwesomeModule } from 'angular-font-awesome';
 // redux
 import { NgRedux, NgReduxModule } from '@angular-redux/store';
 import { IAppState, rootReducer, INITIAL_STATE } from './store';
@@ -42,6 +44,7 @@ import { SearchBlockComponent } from './search-block/search-block.component';
     FormsModule,
     AppRoutingModule,
     NgbModule.forRoot(),
+    AngularFontAwesomeModule,
     NgReduxModule,
     AngularFireAuthModule,
     AngularFireDatabaseModule,

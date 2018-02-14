@@ -8,10 +8,16 @@
       <tr>
           <th (click)="sort('title')">
             Title
-            <i class="fa fa-close"></i>
+            <fa name="sort"></fa>
           </th>
-          <th>Author</th>
-          <th>Priority</th>
+          <th (click)="sort('author')">
+            Author
+            <fa name="sort"></fa>
+          </th>
+          <th (click)="sort('priority')">
+            Priority
+            <fa name="sort"></fa>
+          </th>
           <th></th>
       </tr>
     </thead>
