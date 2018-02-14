@@ -12,35 +12,35 @@ import { Actions } from "../actions";
   styleUrls: ['./search-block.component.scss']
 })
 export class SearchBlockComponent implements OnInit {
-  @select() filteredBooks;
+  //@select() filteredBooks;
 
   constructor(
     private ngRedux: NgRedux<IAppState>,
-    private bookService: BookService
+    //private bookService: BookService
   ) { }
 
   ngOnInit() {
   }
 
-  filterBook(term: string) {
-    this.ngRedux.dispatch({type: Actions.SEARCH_BOOK, term: term});
+  filterBook(textTerm: string, priorityTerm: string) {
+    this.ngRedux.dispatch({type: Actions.SEARCH_BOOK, textTerm: textTerm, priorityTerm: priorityTerm});
   }
 
-  selectPriority(selectTerm: string, searchTerm: string) {
-    this.bookService.getBooks(selectTerm);
-    this.filterBook(searchTerm);
-  }
+  // selectPriority(selectTerm: string, searchTerm: string) {
+  //   this.bookService.getBooks(selectTerm);
+  //   this.filterBook(searchTerm);
+  // }
 
-  priorityCSSClass(option: Priority) {
-    switch (option) {
-      case Priority.Low:
-        return 'btn-success';
-      case Priority.Medium:
-        return 'btn-warning';
-      case Priority.High:
-        return 'btn-danger';
-      default:
-        return 'btn-default';
-    }
-  }
+  // priorityCSSClass(option: Priority) {
+  //   switch (option) {
+  //     case Priority.Low:
+  //       return 'btn-success';
+  //     case Priority.Medium:
+  //       return 'btn-warning';
+  //     case Priority.High:
+  //       return 'btn-danger';
+  //     default:
+  //       return 'btn-default';
+  //   }
+  // }
 }

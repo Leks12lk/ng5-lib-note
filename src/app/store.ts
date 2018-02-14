@@ -58,11 +58,13 @@ export function rootReducer(state, action) {
 			});
 		case Actions.LOAD_BOOKS:
 			return tassign(state, {
-			  books: action.selectTerm.length > 0 ? action.books.filter(book => book.priority === action.selectTerm) : action.books,
+			  books: action.books,
+        filteredBooks: action.books
 			});
     case Actions.SEARCH_BOOK:
+      let priorityFilteredBooks = action.priorityTerm.length > 0 ? state.books.filter(book => book.priority === action.priorityTerm) : state.books;
       return tassign(state,{
-        filteredBooks: action.term.length > 0 ? state.books.filter(item => item.title.search(action.term) !== -1 || item.author.search(action.term) !== -1) : []
+        filteredBooks: action.textTerm.length > 0 ? priorityFilteredBooks.filter(item => item.title.search(action.textTerm) !== -1 || item.author.search(action.textTerm) !== -1) : priorityFilteredBooks
       });
 	}
 

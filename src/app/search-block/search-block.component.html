@@ -1,7 +1,7 @@
 ﻿<div id="search-component">
   <div class="form-group">
     <label for="#prioritySelect">Choose Priority</label>
-    <select class="form-control" id="#prioritySelect" #prioritySelect (change)="selectPriority(prioritySelect.value, searchBox.value);">
+    <select class="form-control" id="#prioritySelect" #prioritySelect (change)="filterBook(searchBox.value, prioritySelect.value);">
       <option value="" selected="selected">All</option>
       <option value="high">High</option>
       <option value="medium">Medium</option>
@@ -9,13 +9,13 @@
     </select>
   </div>
   <div class="form-group">
-    <input #searchBox id="search-box" (keyup)="filterBook(searchBox.value)" placeholder="search book" class="form-control"/>
+    <input #searchBox id="search-box" (keyup)="filterBook(searchBox.value, prioritySelect.value)" placeholder="search book" class="form-control"/>
   </div>
-  <ul class="search-result list-unstyled">
-    <li *ngFor="let book of filteredBooks | async" >
-      <a routerLink="/book/{{book.$key}}" class="btn" ngClass="{{priorityCSSClass(book.priority)}}">
-        {{book.title}} - <small>{{book.author}}</small>
-      </a>
-    </li>
-  </ul>
+  <!--<ul class="search-result list-unstyled">-->
+    <!--<li *ngFor="let book of filteredBooks | async" >-->
+      <!--<a routerLink="/book/{{book.$key}}" class="btn" ngClass="{{priorityCSSClass(book.priority)}}">-->
+        <!--{{book.title}} - <small>{{book.author}}</small>-->
+      <!--</a>-->
+    <!--</li>-->
+  <!--</ul>-->
 </div>

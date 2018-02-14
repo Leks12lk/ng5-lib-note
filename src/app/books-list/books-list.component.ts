@@ -14,6 +14,7 @@ import { Observable } from "rxjs/Observable";
 export class BooksListComponent implements OnInit {
   books: Book[];
   @select((s:IAppState) => s.books) books$;
+  @select() filteredBooks;
   @Input() activeTab: string;
 
   @select() categoriesTags: string[];
@@ -31,7 +32,7 @@ export class BooksListComponent implements OnInit {
         this.books = books.filter(b => b.status.toString() === this.activeTab);
        }
      });
-  }  
+  }
 
   removeBook(book) {
     //this.ngRedux.dispatch({type: Actions.REMOVE_BOOK, id: book.id})
@@ -65,6 +66,6 @@ export class BooksListComponent implements OnInit {
   descPropComparator(propName) {
     return (a, b) => a[propName] == b[propName] ? 0 : a[propName] < b[propName] ? 1 : -1;
   }
-  
+
 
 }
