@@ -10,8 +10,7 @@ export interface IAppState {
 	books: IBook[],
 	categories: string[],
 	lastUpdate: Date,
-  	filteredBooks: IBook[]
-
+  filteredBooks: IBook[]
 }
 
 export const INITIAL_STATE: IAppState = {
@@ -19,7 +18,7 @@ export const INITIAL_STATE: IAppState = {
 	books: [],
 	categories: [],
 	lastUpdate: new Date(),
-  	filteredBooks: []
+  filteredBooks: []
 };
 
 export function rootReducer(state, action) {
@@ -27,7 +26,7 @@ export function rootReducer(state, action) {
 		case Actions.ADD_BOOK:
 			//action.book.id = state.books.length + 1;
 			return tassign(state, {
-				books: state.books.concat(tassign({},action.book)), 
+				books: state.books.concat(tassign({},action.book)),
 				lastUpdate: new Date()
 			});
 		case Actions.REMOVE_BOOK:
@@ -62,19 +61,19 @@ export function rootReducer(state, action) {
 			  	books: action.books,
 				filteredBooks: action.books
 			});
-		case Actions.SEARCH_BOOK:			
+		case Actions.SEARCH_BOOK:
 			return tassign(state,{
 						filteredBooks: filterBooks(action, state),
-						lastUpdated: new Date()				
+						lastUpdated: new Date()
 			});
-	
+
 		case Actions.LOAD_CATEGORIES:
 			return tassign(state, {
 				categories: action.categories
 			});
 		case Actions.ADD_CATEGORY:
 			return tassign(state, {
-				categories: state.categories.concat(tassign({},action.category)), 
+				categories: state.categories.concat(tassign({},action.category)),
 				lastUpdate: new Date()
 			});
 
@@ -85,18 +84,29 @@ export function rootReducer(state, action) {
 
 
 function filterBooks(action, state) {
-	let priorityFilteredBooks = action.priorityTerm.length > 0 
-		? state.books.filter(book => book.priority === action.priorityTerm) 
+  function compareArray(arr1: string[], arr2: string[]) {
+    let resultArray: boolean[] = [];
+    for(let i = 0; i < arr1.length; i ++) {
+      let itemResult:boolean = arr2.indexOf(arr1[i]) !== -1;
+      resultArray.push(itemResult);
+    }
+    return resultArray.indexOf(true) !== -1
+  }
+	let priorityFilteredBooks = action.searchTerms.priorityTerm.length > 0
+		? state.books.filter(book => book.priority === action.searchTerms.priorityTerm)
 		: state.books;
 
-		let textFilteredBooks = action.textTerm.length > 0 
+  let textFilteredBooks = action.searchTerms.textTerm.length > 0
 		? priorityFilteredBooks.filter(
-				item => item.title.toLowerCase().search(action.textTerm.toLowerCase()) !== -1 
-				|| item.author.toLowerCase().search(action.textTerm.toLowerCase()) !== -1
-		) 
-		: priorityFilteredBooks
+				item => item.title.toLowerCase().search(action.searchTerms.textTerm.toLowerCase()) !== -1
+				|| item.author.toLowerCase().search(action.searchTerms.textTerm.toLowerCase()) !== -1
+		)
+		: priorityFilteredBooks;
+  let categoryFilteredBooks = action.searchTerms.categoryTerm.length > 0
+    ? textFilteredBooks.filter(book => compareArray(book.category, action.searchTerms.categoryTerm))
+    : textFilteredBooks;
 
-		return textFilteredBooks;
+  return categoryFilteredBooks;
 }
 
 

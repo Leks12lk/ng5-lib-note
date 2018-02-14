@@ -5,7 +5,7 @@ export interface IBook {
     $key?: string,
     title: string,
     author: string,
-    category: string,
+    category: string[],
     priority: Priority,
     isRead: boolean,
     sendNotification: boolean,

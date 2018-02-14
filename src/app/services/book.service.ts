@@ -58,7 +58,7 @@ export class BookService {
   }
 
 
-  addBook(book: Book)  {  
+  addBook(book: Book)  {
     if (!this.userId) return;
     this.db.list(`books/${this.userId}`).push(book);
     this.ngRedux.dispatch({type: Actions.ADD_BOOK, book: book})
@@ -74,10 +74,10 @@ export class BookService {
     if (!this.userId ) return;
     this.db.list(`categories/${this.userId}`).valueChanges().subscribe(cats => {
       this.ngRedux.dispatch({type: Actions.LOAD_CATEGORIES, categories: cats});
-    })
+    });
   }
 
-  addCategory(cat: string)  {  
+  addCategory(cat: string)  {
     if (!this.userId) return;
     this.db.list(`categories/${this.userId}`).push(cat);
     this.ngRedux.dispatch({type: Actions.ADD_BOOK, category: cat});

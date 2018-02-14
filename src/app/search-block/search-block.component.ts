@@ -1,10 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { NgRedux, select } from '@angular-redux/store';
 import {IAppState} from '../store';
-import { BookService } from "../services/book.service";
-import {Priority} from '../models/priority';
 import { Actions } from "../actions";
 
+interface ISearchTerms {
+  textTerm: string,
+  priorityTerm: string,
+  categoryTerm: string[]
+}
 
 @Component({
   selector: 'app-search-block',
@@ -12,35 +15,28 @@ import { Actions } from "../actions";
   styleUrls: ['./search-block.component.scss']
 })
 export class SearchBlockComponent implements OnInit {
-  //@select() filteredBooks;
+  @select((s:IAppState) => s.categories) categories$;
+  selectedCategories: string[] = [];
 
   constructor(
-    private ngRedux: NgRedux<IAppState>,
-    //private bookService: BookService
+    private ngRedux: NgRedux<IAppState>
   ) { }
 
   ngOnInit() {
   }
 
-  filterBook(textTerm: string, priorityTerm: string) {
-    this.ngRedux.dispatch({type: Actions.SEARCH_BOOK, textTerm: textTerm, priorityTerm: priorityTerm});
+  filterBook(searchTerms: ISearchTerms) {
+    this.ngRedux.dispatch({type: Actions.SEARCH_BOOK, searchTerms: searchTerms});
   }
 
-  // selectPriority(selectTerm: string, searchTerm: string) {
-  //   this.bookService.getBooks(selectTerm);
-  //   this.filterBook(searchTerm);
-  // }
+  toggleSelectedCategory(searchTerms, categoryName) {
+    this.selectedCategories.indexOf(categoryName) === -1
+      ? this.selectedCategories.push(categoryName)
+      : this.selectedCategories.splice(this.selectedCategories.indexOf(categoryName), 1);
+    this.filterBook(searchTerms);
+  }
 
-  // priorityCSSClass(option: Priority) {
-  //   switch (option) {
-  //     case Priority.Low:
-  //       return 'btn-success';
-  //     case Priority.Medium:
-  //       return 'btn-warning';
-  //     case Priority.High:
-  //       return 'btn-danger';
-  //     default:
-  //       return 'btn-default';
-  //   }
-  // }
+  ifSelected(target: string) {
+    return this.selectedCategories.indexOf(target) === -1 ? "btn-primary" : "btn-success";
+  }
 }

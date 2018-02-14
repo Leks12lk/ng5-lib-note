@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NgRedux } from "@angular-redux/store";
+import {NgRedux, select} from '@angular-redux/store';
 import { IAppState } from "../store";
 import { IBook } from "../interfaces/ibook.interface";
 import { Priority } from "../models/priority";
@@ -18,6 +18,7 @@ import { BookStatus } from "../models/book-status";
 export class AddBookFormComponent implements OnInit {
   closeResult: string;
   modalRef: any;
+  @select((s:IAppState) => s.categories) categories$;
 
   date: any;
   time = {hour: 0, minute: 0};
@@ -25,16 +26,16 @@ export class AddBookFormComponent implements OnInit {
   model: IBook = {
     title: '',
     author: '',
-    category: '',
+    category: [],
     priority: Priority.Low,
     isRead: false,
     sendNotification: false,
     status: BookStatus.ToRead,
     notes: ''
-  }
+  };
 
   constructor(
-    private ngRedux: NgRedux<IAppState>, 
+    private ngRedux: NgRedux<IAppState>,
     private modalService: NgbModal,
     private bookService: BookService) { }
 
@@ -50,6 +51,15 @@ export class AddBookFormComponent implements OnInit {
     this.modalRef.close();
   }
 
+  addBookCategory(categoryName: string) {
+    const categoriesArray = this.model.category;
+    categoriesArray.indexOf(categoryName) === -1 ? categoriesArray.push(categoryName) : null;
+  }
+
+  removeBookCategory(categoryName: string) {
+    const categoriesArray = this.model.category;
+    categoriesArray.splice(categoriesArray.indexOf(categoryName), 1);
+  }
 
   open(content) {
     this.modalRef = this.modalService.open(content);
