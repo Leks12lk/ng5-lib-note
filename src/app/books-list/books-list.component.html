@@ -1,6 +1,3 @@
-
-
-
 <h6>Books List:</h6>
 <div *ngIf="(books$ | async)?.length > 0; else emptyList">
   <table class="table">
@@ -36,7 +33,7 @@
             <button type="button" class="btn btn-primary btn-sm" (click)="toggleReadStatus(book)">
               {{ book.isRead ? 'Is Not Read' : 'Is Read' }}
             </button>
-            <button type="button" class="btn btn-warning btn-sm" (click)="editBook(book)">Edit</button>
+            <button type="button" class="btn btn-warning btn-sm" (click)="editBook(book, modal)">Edit</button>
           </td>
       </tr>
     </tbody>
@@ -45,3 +42,5 @@
 <ng-template #emptyList>
   <p class="lead">You have no any book</p>
 </ng-template>
+
+

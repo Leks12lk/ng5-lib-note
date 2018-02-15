@@ -6,6 +6,7 @@ import { Actions } from "../actions";
 import { BookService } from "../services/book.service";
 import { Observable } from "rxjs/Observable";
 import { Priority } from "../models/priority";
+import * as $ from 'jquery';
 
 @Component({
   selector: 'app-books-list',
@@ -13,6 +14,8 @@ import { Priority } from "../models/priority";
   styleUrls: ['./books-list.component.scss']
 })
 export class BooksListComponent implements OnInit {
+  modalRef: any;
+  closeResult: string;
   books: Book[];
   @select((s:IAppState) => s.books) books$;
   @select((s:IAppState) => s.filteredBooks) filteredBooks$;  
@@ -28,8 +31,7 @@ export class BooksListComponent implements OnInit {
 
   constructor(
     private ngRedux: NgRedux<IAppState>,
-    private bookService: BookService) {
-    }
+    private bookService: BookService) { }
 
   ngOnInit() {
      this.filteredBooks$.subscribe(books => {
@@ -49,9 +51,12 @@ export class BooksListComponent implements OnInit {
     //this.ngRedux.dispatch({type: Actions.TOGGLE_READ_STATUS, id: book.id})
   }
 
-  editBook(book) {
-    alert('Here will be modal to edit book with a title ' + book.title);
+  editBook(book, modal) {
+    this.ngRedux.dispatch({type: Actions.ADD_EDITED_BOOK, editedBook: book});
+    // click on add book button in order to open the modal with edited book data
+    $('#addButton').trigger('click');
   }
+  
 
   sort(property: string) {
     let sortOrder :number = this.sortOrders[property];

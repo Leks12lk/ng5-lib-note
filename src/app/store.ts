@@ -10,7 +10,8 @@ export interface IAppState {
 	books: IBook[],
 	categories: string[],
 	lastUpdate: Date,
-  filteredBooks: IBook[]
+	filteredBooks: IBook[],
+	editedBook: IBook
 }
 
 export const INITIAL_STATE: IAppState = {
@@ -18,7 +19,8 @@ export const INITIAL_STATE: IAppState = {
 	books: [],
 	categories: [],
 	lastUpdate: new Date(),
-  filteredBooks: []
+	filteredBooks: [],
+	editedBook: null
 };
 
 export function rootReducer(state, action) {
@@ -76,6 +78,14 @@ export function rootReducer(state, action) {
 				categories: state.categories.concat(tassign({},action.category)),
 				lastUpdate: new Date()
 			});
+		case Actions.ADD_EDITED_BOOK:
+			return tassign(state, {
+				editedBook: action.editedBook
+			});
+		case Actions.REMOVE_EDITED_BOOK:
+			return tassign(state, {
+				editedBook: null
+			})
 
 	}
 

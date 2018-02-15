@@ -18,12 +18,15 @@ import { BookStatus } from "../models/book-status";
 export class AddBookFormComponent implements OnInit {
   closeResult: string;
   modalRef: any;
+  modalTitle: string;
+   
   @select((s:IAppState) => s.categories) categories$;
+  @select((s:IAppState) => s.editedBook) editedBook$;
 
   date: any;
   time = {hour: 0, minute: 0};
 
-  model: IBook = {
+  newBook: IBook = {
     title: '',
     author: '',
     categories: [],
@@ -34,21 +37,34 @@ export class AddBookFormComponent implements OnInit {
     notes: ''
   };
 
+  model: IBook;
+
   constructor(
     private ngRedux: NgRedux<IAppState>,
     private modalService: NgbModal,
     private bookService: BookService) { }
 
   ngOnInit() {
+    this.editedBook$.subscribe(editedBook => {      
+      if(editedBook !== null ) { // edit book
+        this.model = editedBook;
+        this.modalTitle = "Edit Book: " + editedBook.title;
+      } else { // adding new book
+        this.model = this.newBook;
+        this.modalTitle = "Add New Book";
+      }
+     
+    });
   }
 
-  addBook(addBookForm : NgForm) {
-    // this.ngRedux.dispatch({type: Actions.ADD_BOOK, book: this.model});
+  addBook(addBookForm : NgForm) {    
     this.bookService.addBook(this.model);
     // reset the form values
     addBookForm.reset();
     // close the modal
     this.modalRef.close();
+    // remove edited book from state
+    this.ngRedux.dispatch({type: Actions.REMOVE_EDITED_BOOK});
   }
 
   addBookCategory(categoryName: string) {
@@ -65,8 +81,12 @@ export class AddBookFormComponent implements OnInit {
     this.modalRef = this.modalService.open(content);
     this.modalRef.result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
+      // remove edited book from state
+      this.ngRedux.dispatch({type: Actions.REMOVE_EDITED_BOOK});
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+      // remove edited book from state
+      this.ngRedux.dispatch({type: Actions.REMOVE_EDITED_BOOK});
     });
   }
 
