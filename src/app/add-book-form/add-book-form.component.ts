@@ -18,6 +18,8 @@ import { BookStatus } from "../models/book-status";
 export class AddBookFormComponent implements OnInit {  
   modalTitle: string;
   isEditMode: boolean;
+
+  editedBook: IBook;
    
   @select((s:IAppState) => s.categories) categories$;
   @select((s:IAppState) => s.editedBook) editedBook$;
@@ -45,22 +47,27 @@ export class AddBookFormComponent implements OnInit {
     private bookService: BookService) { }
 
   ngOnInit() {
-    this.editedBook$.subscribe(editedBook => {      
+    this.editedBook$.subscribe(editedBook => {
       if(editedBook !== null ) { // edit book
-        this.model = editedBook;
-        this.modalTitle = "Edit Book: " + editedBook.title;
+        // in order not to show at the table how fields are changing
+        this.model = Object.assign({},editedBook);
+        this.modalTitle = "Edit Book: " + editedBook.title;       
+        this.editedBook = editedBook;
         this.isEditMode = true;
+
       } else { // adding new book
         this.model = this.newBook;
         this.modalTitle = "Add New Book";
         this.isEditMode = false;
-      }     
+      }
     });
   }
 
   addBook(addBookForm : NgForm) {
     if(this.isEditMode) {
-      this.bookService.updateBook(this.model);
+      // in order to save the same object
+      this.editedBook = Object.assign({}, this.model);
+      this.bookService.updateBook(this.editedBook);
     } else {
       this.bookService.addBook(this.model);
     }    
