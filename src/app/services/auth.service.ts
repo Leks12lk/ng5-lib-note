@@ -26,7 +26,7 @@ export class AuthService {
 
 	login(email: string, password: string) {
 		return this.afAuth.auth.signInWithEmailAndPassword(email, password)
-			.then(resolve => {			
+			.then(resolve => {
 				// here will be navigate to books list page
 				this.router.navigate(['books']);
 			})
@@ -58,17 +58,11 @@ export class AuthService {
 		this.db.object(path).update(data)
 			.catch(error => console.log(error));
 	}
+	
 
-	setUserStatus(status: string) {
-		let path = `users/${this.currentUserId}`;
-		let data = {
-			status
-		};
-	}
-
-	getAuthUser() {
-		return this.user;
-	}
+	// getAuthUser() {
+	// 	return this.user;
+	// }
 
 
 }

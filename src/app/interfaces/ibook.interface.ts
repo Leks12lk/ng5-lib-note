@@ -2,7 +2,7 @@ import { Priority } from "../models/priority";
 import { BookStatus } from "../models/book-status";
 
 export interface IBook {
-    $key?: string,
+    key?: string,
     title: string,
     author: string,
     categories: string[],

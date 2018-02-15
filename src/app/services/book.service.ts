@@ -9,13 +9,17 @@ import { IAppState } from "../store";
 import { Actions } from "../actions";
 
 import * as firebase from 'firebase/app';
+import { IBook } from "../interfaces/ibook.interface";
+import 'rxjs/add/operator/map';
 
 
 @Injectable()
 export class BookService {
     books: Book[] = null;
     userId: string;
-    user: firebase.User;
+    
+    booksRef: AngularFireList<any>;
+    books$: Observable<any[]>;    
 
     constructor (
       private db: AngularFireDatabase,
@@ -24,51 +28,38 @@ export class BookService {
     ) {
       this.afAuth.authState.subscribe(user => {
         console.log('books servive user', user);
-        if(user !== undefined && user !== null) {
-          this.user = user;
+        if(user !== undefined && user !== null) {       
           this.userId = user.uid;
-          this.getBooks();
+          this.booksRef = db.list(`books/${this.userId}`);
+
+          this.books$ = this.booksRef.snapshotChanges().map(changes => {
+            return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
+          });
+
+          this.books$.subscribe(books => {
+            this.ngRedux.dispatch({type: Actions.LOAD_BOOKS, books: books});
+          });
+        
           this.getCategories();
         }
-
-        // this.getUser().subscribe((user) => {
-        //   this.userName = user.displayName;
-        // });
-      });
-
-      // this.getBooks1().subscribe(books => {
-      //   this.books = books;
-      // })
+      });    
 
     }
 
-  // Return an observable list with optional query
-  // You will usually call this from OnInit in a component
-  getBooks(): Observable<Book[]> {
-    // var userId = '';
-    // if(this.user) {
-    //   userId = this.user.uid;
-    // }
-    console.log('getBooks', this.userId);
-    if (!this.userId ) return;
-    this.db.list(`books/${this.userId}`).valueChanges().subscribe(books => {
-      this.ngRedux.dispatch({type: Actions.LOAD_BOOKS, books: books});
-    })
-
-  }
-
-
-  addBook(book: Book)  {
+  addBook(book: Book) {
     if (!this.userId) return;
-    this.db.list(`books/${this.userId}`).push(book);
-    this.ngRedux.dispatch({type: Actions.ADD_BOOK, book: book})
+    this.booksRef.push(book);
+    this.ngRedux.dispatch({type: Actions.ADD_BOOK, book: book})  
   }
 
-  // getUser(): any {
-  //   let userId = this.user.uid;
-  //   let path = `/users/${userId}`;
-  //   return this.db.object(path).valueChanges();
-  // }
+  updateBook(book: Book) {
+    if (!this.userId) return;    
+    this.booksRef.update(book.key, book);
+  }
+
+  deleteBook(book: IBook) {    
+    this.db.object(`books/${this.userId}/` + book.key).remove();
+  }
 
   getCategories(): Observable<string[]> {
     if (!this.userId ) return;

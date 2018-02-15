@@ -61,7 +61,7 @@ export function rootReducer(state, action) {
 		case Actions.LOAD_BOOKS:
 			return tassign(state, {
 			  	books: action.books,
-				filteredBooks: action.books
+					filteredBooks: action.books
 			});
 		case Actions.SEARCH_BOOK:
 			return tassign(state,{

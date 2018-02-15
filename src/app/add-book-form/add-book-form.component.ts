@@ -19,6 +19,7 @@ export class AddBookFormComponent implements OnInit {
   closeResult: string;
   modalRef: any;
   modalTitle: string;
+  isEditMode: boolean;
    
   @select((s:IAppState) => s.categories) categories$;
   @select((s:IAppState) => s.editedBook) editedBook$;
@@ -49,16 +50,22 @@ export class AddBookFormComponent implements OnInit {
       if(editedBook !== null ) { // edit book
         this.model = editedBook;
         this.modalTitle = "Edit Book: " + editedBook.title;
+        this.isEditMode = true;
       } else { // adding new book
         this.model = this.newBook;
         this.modalTitle = "Add New Book";
+        this.isEditMode = false;
       }
      
     });
   }
 
-  addBook(addBookForm : NgForm) {    
-    this.bookService.addBook(this.model);
+  addBook(addBookForm : NgForm) {
+    if(this.isEditMode) {
+      this.bookService.updateBook(this.model);
+    } else {
+      this.bookService.addBook(this.model);
+    }    
     // reset the form values
     addBookForm.reset();
     // close the modal
