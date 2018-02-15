@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from "../services/auth.service";
+import { NgStyle } from '@angular/common';
 
 @Component({
   selector: 'app-login-form',
@@ -10,7 +11,7 @@ export class LoginFormComponent implements OnInit {
   email: string;
   password: string;
   errorMsg: string;
-  
+
   constructor(private authService: AuthService) { }
 
   ngOnInit() {

@@ -27,6 +27,7 @@ import { BooksComponent } from './books/books.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { SearchBlockComponent } from './search-block/search-block.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
+import { ConfirmationModalComponent } from './confirmation-modal/confirmation-modal.component';
 
 
 @NgModule({
@@ -39,8 +40,10 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
     BooksComponent,
     NavbarComponent,
     SearchBlockComponent,
-    UserProfileComponent
+    UserProfileComponent,
+    ConfirmationModalComponent
   ],
+  entryComponents: [ConfirmationModalComponent],
   imports: [
     BrowserModule,
     FormsModule,
@@ -58,7 +61,7 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { 
+export class AppModule {
   constructor(private ngRedux: NgRedux<IAppState>) {
     ngRedux.configureStore(rootReducer, INITIAL_STATE);
   }

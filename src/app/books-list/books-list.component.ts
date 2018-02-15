@@ -6,7 +6,9 @@ import { Actions } from "../actions";
 import { BookService } from "../services/book.service";
 import { Observable } from "rxjs/Observable";
 import { Priority } from "../models/priority";
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import * as $ from 'jquery';
+import { ConfirmationModalComponent } from '../confirmation-modal/confirmation-modal.component';
 
 @Component({
   selector: 'app-books-list',
@@ -18,7 +20,7 @@ export class BooksListComponent implements OnInit {
   closeResult: string;
   books: Book[];
   @select((s:IAppState) => s.books) books$;
-  @select((s:IAppState) => s.filteredBooks) filteredBooks$;  
+  @select((s:IAppState) => s.filteredBooks) filteredBooks$;
   @Input() activeTab: string;
 
   @select() categoriesTags: string[];
@@ -27,10 +29,11 @@ export class BooksListComponent implements OnInit {
     title: 0,
     author: 0,
     priority: 0
-  }
+  };
 
   constructor(
     private ngRedux: NgRedux<IAppState>,
+    private modalService: NgbModal,
     private bookService: BookService) { }
 
   ngOnInit() {
@@ -41,6 +44,12 @@ export class BooksListComponent implements OnInit {
         this.books = books.filter(b => b.status.toString() === this.activeTab);
        }
      });
+  }
+
+  getConfirmation(book) {
+    this.ngRedux.dispatch({type: Actions.ADD_EDITED_BOOK, editedBook: book});
+    const modalRef = this.modalService.open(ConfirmationModalComponent);
+    modalRef.componentInstance.book = book;
   }
 
   removeBook(book) {
@@ -56,17 +65,17 @@ export class BooksListComponent implements OnInit {
     // click on add book button in order to open the modal with edited book data
     $('#addButton').trigger('click');
   }
-  
+
 
   sort(property: string) {
     let sortOrder :number = this.sortOrders[property];
-    
-    let ascComparator = property === 'priority' 
+
+    let ascComparator = property === 'priority'
       ? this.ascPriorityComparator : this.ascPropComparator;
-   
-    let descComparator = property === 'priority' 
+
+    let descComparator = property === 'priority'
        ? this.descPriorityComparator : this.descPropComparator;
-    
+
     if(sortOrder === 0) {
       this.books.sort(ascComparator(property));
       this.sortOrders[property] = 1;
@@ -76,8 +85,8 @@ export class BooksListComponent implements OnInit {
     } else if(sortOrder === -1) {
       this.books.sort(ascComparator(property));
       this.sortOrders[property] = 1;
-    }    
-  }  
+    }
+  }
 
   ascPropComparator(propName) {
     return (a, b) => a[propName] === b[propName] ? 0 : a[propName] < b[propName] ? -1 : 1;
@@ -87,12 +96,12 @@ export class BooksListComponent implements OnInit {
     return (a, b) => a[propName] === b[propName] ? 0 : a[propName] < b[propName] ? 1 : -1;
   }
 
-  ascPriorityComparator() { 
+  ascPriorityComparator() {
     return function(a,b) {
       let x = a.priority === Priority.Low ? 0 : a.priority === Priority.Medium ? 1 : 2;
       let y = b.priority === Priority.Low ? 0 : b.priority === Priority.Medium ? 1 : 2;
       return x === y ? 0 : x < y ? -1 : 1;
-    }   
+    }
   }
 
   descPriorityComparator() {
@@ -102,6 +111,4 @@ export class BooksListComponent implements OnInit {
       return x === y ? 0 : x < y ? 1 : -1;
     }
   }
-
-
 }

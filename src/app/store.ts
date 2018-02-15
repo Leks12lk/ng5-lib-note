@@ -33,7 +33,8 @@ export function rootReducer(state, action) {
 			});
 		case Actions.REMOVE_BOOK:
 			return tassign(state, {
-				books: state.books.filter(b => b.id !== action.id),
+				books: state.books.filter(b => b.key !== state.editedBook.key),
+        filteredBooks: state.filteredBooks.filter(b => b.key !== state.editedBook.key),
 				lastUpdate: new Date()
 			});
 		case Actions.TOGGLE_READ_STATUS:
@@ -94,7 +95,7 @@ export function rootReducer(state, action) {
 
 
 function filterBooks(action, state) {
-	
+
 	let priorityFilteredBooks = action.searchTerms.priorityTerm.length > 0
 			? state.books.filter(book => book.priority === action.searchTerms.priorityTerm)
 			: state.books;
@@ -106,10 +107,10 @@ function filterBooks(action, state) {
 			)
 			: priorityFilteredBooks;
 
- 
+
 	let categoryFilteredBooks = action.searchTerms.categoryTerm.length > 0
 			? textFilteredBooks.filter(book => compareArray(book.categories, action.searchTerms.categoryTerm))
-			: textFilteredBooks; 
+			: textFilteredBooks;
 
   return categoryFilteredBooks;
 }

@@ -15,6 +15,7 @@
             Priority
             <fa name="sort"></fa>
           </th>
+          <th>Categories</th>
           <th></th>
       </tr>
     </thead>
@@ -29,11 +30,15 @@
             <span *ngIf="book.priority === 'high'" class="badge badge-danger">High</span>
           </td>
           <td>
-            <button type="button" class="btn btn-danger btn-sm" (click)="removeBook(book)">Delete</button>
-            <button type="button" class="btn btn-primary btn-sm" (click)="toggleReadStatus(book)">
-              {{ book.isRead ? 'Is Not Read' : 'Is Read' }}
-            </button>
-            <button type="button" class="btn btn-warning btn-sm" (click)="editBook(book, modal)">Edit</button>
+            <span *ngFor="let category of book.categories" class="mr-1 d-inline-block">{{category}}</span>
+          </td>
+          <td>
+            <div class="btn-group">
+              <button type="button"
+                      class="btn btn-danger btn-sm"
+                      (click)="getConfirmation(book)">Delete</button>
+              <button type="button" class="btn btn-warning btn-sm" (click)="editBook(book, modal)">Edit</button>
+            </div>
           </td>
       </tr>
     </tbody>
