@@ -1,7 +1,10 @@
 ﻿<div class="container">
   <div class="row">
     <div class="col-md-9">
-      <app-add-book-form></app-add-book-form>
+      
+      <button class="btn btn-primary" id="addButton" (click)="showAddBookModal()">Add Book</button>
+      <hr>
+
       <ngb-tabset>
          <ngb-tab title="All">
           <ng-template ngbTabContent>

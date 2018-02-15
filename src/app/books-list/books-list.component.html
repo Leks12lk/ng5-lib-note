@@ -20,8 +20,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let book of books" [class.table-dark]="book.isRead">
-
+      <tr *ngFor="let book of books">
           <td>{{ book.title }}</td>
           <td>{{ book.author }}</td>
           <td>
@@ -30,14 +29,17 @@
             <span *ngIf="book.priority === 'high'" class="badge badge-danger">High</span>
           </td>
           <td>
-            <span *ngFor="let category of book.categories" class="mr-1 d-inline-block">{{category}}</span>
+            <span class="mr-1 d-inline-block">{{ book.categories.join(', ') }}</span>
           </td>
           <td>
             <div class="btn-group">
+              <button type="button" 
+                      class="btn btn-warning btn-sm" 
+                      (click)="editBook(book)">Edit</button>
+
               <button type="button"
                       class="btn btn-danger btn-sm"
                       (click)="getConfirmation(book)">Delete</button>
-              <button type="button" class="btn btn-warning btn-sm" (click)="editBook(book, modal)">Edit</button>
             </div>
           </td>
       </tr>

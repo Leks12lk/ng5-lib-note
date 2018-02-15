@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import {NgRedux, select} from '@angular-redux/store';
 import { IAppState } from "../store";
 import { IBook } from "../interfaces/ibook.interface";
 import { Priority } from "../models/priority";
 import { Actions } from "../actions";
 // ng-bootstrap modal
-import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, ModalDismissReasons, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgForm } from "@angular/forms/";
 import { BookService } from "../services/book.service";
 import { BookStatus } from "../models/book-status";
@@ -15,9 +15,7 @@ import { BookStatus } from "../models/book-status";
   templateUrl: './add-book-form.component.html',
   styleUrls: ['./add-book-form.component.scss']
 })
-export class AddBookFormComponent implements OnInit {
-  closeResult: string;
-  modalRef: any;
+export class AddBookFormComponent implements OnInit {  
   modalTitle: string;
   isEditMode: boolean;
    
@@ -43,6 +41,7 @@ export class AddBookFormComponent implements OnInit {
   constructor(
     private ngRedux: NgRedux<IAppState>,
     private modalService: NgbModal,
+    private activeModal: NgbActiveModal,
     private bookService: BookService) { }
 
   ngOnInit() {
@@ -55,8 +54,7 @@ export class AddBookFormComponent implements OnInit {
         this.model = this.newBook;
         this.modalTitle = "Add New Book";
         this.isEditMode = false;
-      }
-     
+      }     
     });
   }
 
@@ -69,7 +67,7 @@ export class AddBookFormComponent implements OnInit {
     // reset the form values
     addBookForm.reset();
     // close the modal
-    this.modalRef.close();
+    this.activeModal.close('Close click');
     // remove edited book from state
     this.ngRedux.dispatch({type: Actions.REMOVE_EDITED_BOOK});
   }
@@ -84,27 +82,10 @@ export class AddBookFormComponent implements OnInit {
     categoriesArray.splice(categoriesArray.indexOf(categoryName), 1);
   }
 
-  open(content) {
-    this.modalRef = this.modalService.open(content);
-    this.modalRef.result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
-      // remove edited book from state
-      this.ngRedux.dispatch({type: Actions.REMOVE_EDITED_BOOK});
-    }, (reason) => {
-      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-      // remove edited book from state
-      this.ngRedux.dispatch({type: Actions.REMOVE_EDITED_BOOK});
-    });
-  }
 
-  private getDismissReason(reason: any): string {
-    if (reason === ModalDismissReasons.ESC) {
-      return 'by pressing ESC';
-    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-      return 'by clicking on a backdrop';
-    } else {
-      return  `with: ${reason}`;
-    }
+  closeModal() {
+    this.ngRedux.dispatch({type: Actions.REMOVE_EDITED_BOOK});
+    this.activeModal.close('Close click');
   }
 
 }

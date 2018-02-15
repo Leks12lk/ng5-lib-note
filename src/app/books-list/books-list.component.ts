@@ -9,6 +9,7 @@ import { Priority } from "../models/priority";
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import * as $ from 'jquery';
 import { ConfirmationModalComponent } from '../confirmation-modal/confirmation-modal.component';
+import { AddBookFormComponent } from "../add-book-form/add-book-form.component";
 
 @Component({
   selector: 'app-books-list',
@@ -60,10 +61,13 @@ export class BooksListComponent implements OnInit {
     //this.ngRedux.dispatch({type: Actions.TOGGLE_READ_STATUS, id: book.id})
   }
 
-  editBook(book, modal) {
+  editBook(book) {
     this.ngRedux.dispatch({type: Actions.ADD_EDITED_BOOK, editedBook: book});
     // click on add book button in order to open the modal with edited book data
-    $('#addButton').trigger('click');
+    //$('#addButton').trigger('click');
+
+    const modalRef = this.modalService.open(AddBookFormComponent);
+    //modalRef.componentInstance.book = book;
   }
 
 

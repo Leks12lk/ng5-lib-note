@@ -43,7 +43,10 @@ import { ConfirmationModalComponent } from './confirmation-modal/confirmation-mo
     UserProfileComponent,
     ConfirmationModalComponent
   ],
-  entryComponents: [ConfirmationModalComponent],
+  entryComponents: [
+    ConfirmationModalComponent, 
+    AddBookFormComponent
+  ],
   imports: [
     BrowserModule,
     FormsModule,
