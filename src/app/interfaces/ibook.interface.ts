@@ -10,5 +10,6 @@ export interface IBook {
     isRead: boolean,
     sendNotification: boolean,
     status: BookStatus,
-    notes: string
+    notes: string,
+    notificationDateTime?: Date
 }

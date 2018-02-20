@@ -7,6 +7,7 @@ export class Book implements IBook {
     isRead: boolean = false;
     sendNotification: boolean = false;
     status: BookStatus = BookStatus.ToRead;
+    notificationDateTime?: Date;
 
     constructor(
         public title:string,

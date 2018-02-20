@@ -7,5 +7,6 @@ export const environment = {
     projectId: "ng5-lib-note",
     storageBucket: "",
     messagingSenderId: "483547243513"
-  }
+  },
+  libNoteApiUrl: '//libnoteapi.gear.host/api/notification'
 };

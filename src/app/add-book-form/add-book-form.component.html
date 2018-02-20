@@ -1,113 +1,3 @@
-<!-- <ng-template #content let-c="close" let-d="dismiss">
-    <div class="modal-header">
-      <h4 class="modal-title">{{ modalTitle }}</h4>
-      <button type="button" class="close" aria-label="Close" (click)="c('Cross click')">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-    <div class="modal-body">
-        <form #addBookForm="ngForm">
-            <div class="form-group">
-                <label for="title">Title</label>
-
-                <input type="text"
-                class="form-control"
-                [(ngModel)]="model.title"
-                id="title"
-                name="title"
-                placeholder="Title"
-                #title="ngModel"
-                required>
-            </div>
-
-            <div class="form-group">
-                <label for="author">Author</label>
-
-                <input type="text"
-                class="form-control"
-                [(ngModel)]="model.author"
-                id="author"
-                name="author"
-                placeholder="Author"
-                #author="ngModel"
-                required>
-            </div>
-
-            <div class="form-group">
-                <label for="priority">Priority</label>
-
-                <select class="form-control"
-                  [(ngModel)]="model.priority"
-                  id="priority"
-                  name="priority"
-                  #priority="ngModel"
-                  required>
-                  <option value="low">Low</option>
-                  <option value="medium">Medium</option>
-                  <option value="high">High</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label for="categories">Categories</label>
-              <select name="categories" id="categories" class="form-control" #categories 
-                    (change)="addBookCategory(categories.value)">
-                <option *ngFor="let tag of categories$ | async"                        
-                        [ngValue]="tag">
-                  {{ tag }}
-                </option>
-              </select>
-            </div>
-            <div class="form-group" *ngIf="model.categories?.length > 0">
-              <div class="btn-group mr-1 mb-1" *ngFor="let bookTag of model.categories">
-                <button class="btn btn-primary btn-sm" (click)="removeBookCategory(bookTag)">{{ bookTag }}</button>
-              </div>
-            </div>
-            <div class="form-group">
-              <label for="notes">Notes</label>
-              <textarea class="form-control" id="notes" rows="3" name="notes" [(ngModel)]="model.notes"></textarea>
-            </div>
-
-            <h4 class="text-info">Here will be scheduling of notifications</h4>
-             <div class="form-group">
-              <div class="input-group">
-                <input class="form-control" placeholder="yyyy-mm-dd"
-                       name="dp" [(ngModel)]="date" ngbDatepicker #d="ngbDatepicker">
-                <div class="input-group-append">
-                  <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
-                    <img src="/assets/image/calendar-icon.svg" style="width: 1.2rem; height: 1rem; cursor: pointer;"/>
-                  </button>
-                </div>
-              </div>
-            </div>
-            <pre>Date: {{ date | json }}</pre>
-
-             <div class="form-group">
-                <ngb-timepicker [(ngModel)]="time" name="time"></ngb-timepicker>
-                <hr>
-
-            </div>
-            <pre>Selected time: {{time | json}}</pre>
-
-          </form>
-    </div>
-    <div class="modal-footer">
-      <button
-        type="button"
-        class="btn btn-primary"
-        (click)="addBook(addBookForm)"
-        [disabled]="addBookForm.invalid">
-        Save
-      </button>
-      <button type="button" class="btn btn-outline-dark" (click)="c('Close click')">Close</button>
-    </div>
-  </ng-template>
-
-   <button class="btn btn-primary" id="addButton" (click)="open(content)">Add Book</button> 
-
-  <hr> -->
-
-
-
   <div class="modal-header">
       <h4 class="modal-title">{{ modalTitle }}</h4>
       <button type="button" class="close" (click)="activeModal.dismiss('Cross click')">
@@ -176,26 +66,34 @@
               <textarea class="form-control" id="notes" rows="3" name="notes" [(ngModel)]="model.notes"></textarea>
             </div>
 
-            <h4 class="text-info">Here will be scheduling of notifications</h4>
-             <div class="form-group">
-              <div class="input-group">
-                <input class="form-control" placeholder="yyyy-mm-dd"
-                       name="dp" [(ngModel)]="date" ngbDatepicker #d="ngbDatepicker">
-                <div class="input-group-append">
-                  <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
-                    <img src="/assets/image/calendar-icon.svg" style="width: 1.2rem; height: 1rem; cursor: pointer;"/>
-                  </button>
+            <div class="form-check form-group">
+              <input type="checkbox" 
+              class="form-check-input" 
+              id="sendNotification" 
+              name="sendNotification"
+              [(ngModel)]="model.sendNotification">
+              <label class="form-check-label" for="sendNotification">Send notification to read this book</label>
+            </div>
+
+            <div *ngIf="model.sendNotification">
+              <p>Add a date and time of sending you a notification</p>
+              <div class="form-group">
+                <div class="input-group">
+                  <input class="form-control" placeholder="yyyy-mm-dd"
+                         name="dp" [(ngModel)]="date" ngbDatepicker #d="ngbDatepicker">
+                  <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
+                      <img src="/assets/image/calendar-icon.svg" style="width: 1.2rem; height: 1rem; cursor: pointer;"/>
+                    </button>
+                  </div>
                 </div>
               </div>
+  
+               <div class="form-group">
+                  <ngb-timepicker [(ngModel)]="time" name="time"></ngb-timepicker>
+              </div>
             </div>
-            <pre>Date: {{ date | json }}</pre>
-
-             <div class="form-group">
-                <ngb-timepicker [(ngModel)]="time" name="time"></ngb-timepicker>
-                <hr>
-
-            </div>
-            <pre>Selected time: {{time | json}}</pre>
+            
 
           </form>
     </div>

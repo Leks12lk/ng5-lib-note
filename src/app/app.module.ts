@@ -19,8 +19,12 @@ import { BooksListComponent } from './books-list/books-list.component';
 import { AddBookFormComponent } from './add-book-form/add-book-form.component';
 import { RegisterFormComponent } from './register-form/register-form.component';
 import { LoginFormComponent } from './login-form/login-form.component';
+
+// services
 import { AuthService } from "./services/auth.service";
 import { BookService } from "./services/book.service";
+import { EmailSendingService } from "./services/email-sending.service";
+
 import { AngularFireAuthModule } from "angularfire2/auth";
 import { AngularFireDatabaseModule } from "angularfire2/database";
 import { AngularFireModule } from "angularfire2";
@@ -30,6 +34,7 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { SearchBlockComponent } from './search-block/search-block.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { ConfirmationModalComponent } from './confirmation-modal/confirmation-modal.component';
+
 
 
 @NgModule({
@@ -64,6 +69,7 @@ import { ConfirmationModalComponent } from './confirmation-modal/confirmation-mo
   providers: [
     AuthService,
     BookService,
+    EmailSendingService,
     HttpClient
   ],
   bootstrap: [AppComponent]
