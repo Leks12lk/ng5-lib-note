@@ -34,6 +34,7 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { SearchBlockComponent } from './search-block/search-block.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { ConfirmationModalComponent } from './confirmation-modal/confirmation-modal.component';
+import { UserService } from "./services/user.service";
 
 
 
@@ -69,6 +70,7 @@ import { ConfirmationModalComponent } from './confirmation-modal/confirmation-mo
   providers: [
     AuthService,
     BookService,
+    UserService,
     EmailSendingService,
     HttpClient
   ],

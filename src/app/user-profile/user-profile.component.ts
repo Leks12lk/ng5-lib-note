@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { BookService } from "../services/book.service";
 import { NgRedux, select } from '@angular-redux/store';
 import { IAppState } from "../store";
 import { NgForm } from "@angular/forms";
+import { UserService } from "../services/user.service";
 
 @Component({
   selector: 'app-user-profile',
@@ -15,14 +15,14 @@ export class UserProfileComponent implements OnInit {
 
   category: string;
 
-  constructor(private bookService: BookService) { 
+  constructor(private userService: UserService) { 
   }
 
   ngOnInit() {
   }
 
   addCategory(categoryForm: NgForm) {
-    this.bookService.addCategory(this.category);
+    this.userService.addCategory(this.category);
     // reset the form values
     categoryForm.reset();
   }

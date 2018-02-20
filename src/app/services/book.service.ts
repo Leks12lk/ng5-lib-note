@@ -11,6 +11,7 @@ import { Actions } from "../actions";
 import * as firebase from 'firebase/app';
 import { IBook } from "../interfaces/ibook.interface";
 import 'rxjs/add/operator/map';
+import { UserService } from "./user.service";
 
 
 @Injectable()
@@ -24,11 +25,11 @@ export class BookService {
     constructor (
       private db: AngularFireDatabase,
       private afAuth: AngularFireAuth,
-      private ngRedux: NgRedux<IAppState>
+      private ngRedux: NgRedux<IAppState>,
+      private userService: UserService
     ) {
       this.afAuth.authState.subscribe(user => {
-        console.log('books servive user', user);
-        if(user !== undefined && user !== null) {       
+        if(user) {
           this.userId = user.uid;
           this.booksRef = db.list(`books/${this.userId}`);
 
@@ -39,8 +40,7 @@ export class BookService {
           this.books$.subscribe(books => {
             this.ngRedux.dispatch({type: Actions.LOAD_BOOKS, books: books});
           });
-        
-          this.getCategories();
+          
         }
       });    
 
@@ -61,18 +61,7 @@ export class BookService {
     this.db.object(`books/${this.userId}/` + book.key).remove();
   }
 
-  getCategories(): Observable<string[]> {
-    if (!this.userId ) return;
-    this.db.list(`categories/${this.userId}`).valueChanges().subscribe(cats => {
-      this.ngRedux.dispatch({type: Actions.LOAD_CATEGORIES, categories: cats});
-    });
-  }
-
-  addCategory(cat: string)  {
-    if (!this.userId) return;
-    this.db.list(`categories/${this.userId}`).push(cat);
-    this.ngRedux.dispatch({type: Actions.ADD_BOOK, category: cat});
-  }
+ 
 
 }
 

@@ -4,6 +4,7 @@ import { AngularFireAuth } from 'angularfire2/auth';
 import { AngularFireDatabase } from 'angularfire2/database';
 import * as firebase from 'firebase/app';
 import { Observable } from 'rxjs/observable';
+import { IUser } from "../interfaces/iuser.interface";
 
 @Injectable()
 export class AuthService { 
@@ -50,9 +51,11 @@ export class AuthService {
 
 	setUserData(email: string, userName: string) {		
 		let path = `users/${this.currentUserId}`;
-		let data = {
+		let data: IUser = {
 			email,
-      		userName
+			userName,
+			lastLoginDate: new Date(),
+			categories: []
     	}
 		
 		this.db.object(path).update(data)

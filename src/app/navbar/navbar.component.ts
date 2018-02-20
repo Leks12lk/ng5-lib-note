@@ -2,8 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from "rxjs/Observable";
 import { AuthService } from "../services/auth.service";
 import * as firebase from 'firebase/app';
-import {select} from '@angular-redux/store';
+import { select, NgRedux } from '@angular-redux/store';
 import {IAppState} from '../store';
+import { Actions } from "../actions";
 
 @Component({
   selector: 'app-navbar',
@@ -17,20 +18,21 @@ export class NavbarComponent implements OnInit {
   logoRoute: string = "/login";
   userEmail: string;
 
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService, private ngRedux: NgRedux<IAppState>) { }
 
   ngOnInit() {
-    this.user = this.authService.authUser();
-    this.user.subscribe(user => {
-      if (user) {
-        this.userEmail = user.email;
-        this.logoRoute = "/books";
-      }
-    });
+    // this.user = this.authService.authUser();
+    // this.user.subscribe(user => {
+    //   if (user) {
+    //     this.userEmail = user.email;
+    //     this.logoRoute = "/books";
+    //   }
+    // });
   }
 
   logout() {
     this.authService.logout();
+    this.ngRedux.dispatch({type: Actions.REMOVE_USER});
     this.logoRoute = "/login"
   }
 }

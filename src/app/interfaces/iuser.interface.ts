@@ -1,6 +1,7 @@
 export interface IUser {
     email: string,
-    password: string,
+    password?: string,
     userName: string,
-    lastLoginDate: Date
+    lastLoginDate: Date,
+    categories: string[]
 }

@@ -86,7 +86,15 @@ export function rootReducer(state, action) {
 		case Actions.REMOVE_EDITED_BOOK:
 			return tassign(state, {
 				editedBook: null
-			})
+			});
+		case Actions.LOAD_USER:
+			return tassign(state, {
+				user: action.user
+			});
+		case Actions.REMOVE_USER:
+			return tassign(state, {
+				user: null
+			});
 
 	}
 
