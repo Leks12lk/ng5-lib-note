@@ -1,5 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+
+import { HttpClientModule, HttpClient } from '@angular/common/http';
 // forms
 import { FormsModule } from '@angular/forms';
 // it enables javascript for bootstrap
@@ -49,6 +51,7 @@ import { ConfirmationModalComponent } from './confirmation-modal/confirmation-mo
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     FormsModule,
     AppRoutingModule,
     NgbModule.forRoot(),
@@ -60,7 +63,8 @@ import { ConfirmationModalComponent } from './confirmation-modal/confirmation-mo
   ],
   providers: [
     AuthService,
-    BookService
+    BookService,
+    HttpClient
   ],
   bootstrap: [AppComponent]
 })

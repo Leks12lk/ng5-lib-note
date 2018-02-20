@@ -10,6 +10,8 @@ import { NgForm } from "@angular/forms/";
 import { BookService } from "../services/book.service";
 import { BookStatus } from "../models/book-status";
 
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+
 @Component({
   selector: 'app-add-book-form',
   templateUrl: './add-book-form.component.html',
@@ -43,8 +45,10 @@ export class AddBookFormComponent implements OnInit {
   constructor(
     private ngRedux: NgRedux<IAppState>,
     private modalService: NgbModal,
-    private activeModal: NgbActiveModal,
-    private bookService: BookService) { }
+    public activeModal: NgbActiveModal,
+    private bookService: BookService,
+    private http: HttpClient
+  ) { }
 
   ngOnInit() {
     this.editedBook$.subscribe(editedBook => {
@@ -77,6 +81,8 @@ export class AddBookFormComponent implements OnInit {
     this.activeModal.close('Close click');
     // remove edited book from state
     this.ngRedux.dispatch({type: Actions.REMOVE_EDITED_BOOK});
+
+    this.sendTestRequest();
   }
 
   addBookCategory(categoryName: string) {
@@ -93,6 +99,22 @@ export class AddBookFormComponent implements OnInit {
   closeModal() {
     this.ngRedux.dispatch({type: Actions.REMOVE_EDITED_BOOK});
     this.activeModal.close('Close click');
+  }
+
+
+ httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type':  'application/json',
+      'Access-Control-Allow-Origin': '*'
+    })
+  }
+
+  configUrl = 'http://localhost/LibNoteApi/api/values';
+  
+  sendTestRequest() {
+    debugger;
+    return this.http.post(this.configUrl, {value:"hello world"}, this.httpOptions)
+    .subscribe(user => console.log('done'));
   }
 
 }

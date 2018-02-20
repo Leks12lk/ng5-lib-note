@@ -7,7 +7,6 @@ import { BookService } from "../services/book.service";
 import { Observable } from "rxjs/Observable";
 import { Priority } from "../models/priority";
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import * as $ from 'jquery';
 import { ConfirmationModalComponent } from '../confirmation-modal/confirmation-modal.component';
 import { AddBookFormComponent } from "../add-book-form/add-book-form.component";
 
