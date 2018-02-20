@@ -85,22 +85,22 @@ export class AddBookFormComponent implements OnInit {
     if(this.model.sendNotification && this.date !== null) {
       // here convert datettime to UTC format and send data to our API
       this.model.notificationDateTime = this.convertDateTimeToUTC(this.date, this.time);
+      this.addEmailNotification();
     }
-    // if(this.isEditMode) {
-    //   // in order to save the same object
-    //   this.editedBook = Object.assign({}, this.model);
-    //   this.bookService.updateBook(this.editedBook);
-    // } else {
-    //   this.bookService.addBook(this.model);
-    // }    
-    // // reset the form values
-    // addBookForm.reset();
-    // // close the modal
-    // this.activeModal.close('Close click');
-    // // remove edited book from state
-    // this.ngRedux.dispatch({type: Actions.REMOVE_EDITED_BOOK});
-    
-    this.addEmailNotification();
+
+    if(this.isEditMode) {
+      // in order to save the same object
+      this.editedBook = Object.assign({}, this.model);
+      this.bookService.updateBook(this.editedBook);
+    } else {
+      this.bookService.addBook(this.model);
+    }    
+    // reset the form values
+    addBookForm.reset();
+    // close the modal
+    this.activeModal.close('Close click');
+    // remove edited book from state
+    this.ngRedux.dispatch({type: Actions.REMOVE_EDITED_BOOK});   
   }
 
   addBookCategory(categoryName: string) {
