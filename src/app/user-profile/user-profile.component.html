@@ -1,6 +1,7 @@
 <ul>
   <li *ngFor="let cat of categories$ | async">
     {{ cat }}
+    <i class="fa fa-close" (click)="removeCategory(cat)"></i>
   </li>
 </ul>
 

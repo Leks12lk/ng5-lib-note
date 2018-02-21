@@ -23,6 +23,7 @@ import { LoginFormComponent } from './login-form/login-form.component';
 // services
 import { AuthService } from "./services/auth.service";
 import { BookService } from "./services/book.service";
+import { UserService } from "./services/user.service";
 import { EmailSendingService } from "./services/email-sending.service";
 
 import { AngularFireAuthModule } from "angularfire2/auth";
@@ -34,7 +35,7 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { SearchBlockComponent } from './search-block/search-block.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { ConfirmationModalComponent } from './confirmation-modal/confirmation-modal.component';
-import { UserService } from "./services/user.service";
+
 
 
 
@@ -70,7 +71,7 @@ import { UserService } from "./services/user.service";
   providers: [
     AuthService,
     BookService,
-    UserService,
+    UserService,  
     EmailSendingService,
     HttpClient
   ],

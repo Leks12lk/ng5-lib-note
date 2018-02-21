@@ -27,4 +27,9 @@ export class UserProfileComponent implements OnInit {
     categoryForm.reset();
   }
 
+  removeCategory(cat: string) {
+    if(!cat) return;
+    this.userService.removeCategory(cat);
+  }
+
 }

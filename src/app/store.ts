@@ -79,6 +79,17 @@ export function rootReducer(state, action) {
 				categories: state.categories.concat(tassign({},action.category)),
 				lastUpdate: new Date()
 			});
+		case Actions.REMOVE_CATEGORY:
+			var index = state.categories.indexOf(action.category);
+			return tassign(state, {
+				categories: [
+					...state.categories.slice(0, index),
+					...state.categories.slice(index+1)
+				],
+				lastUpdated: new Date()
+			});
+
+
 		case Actions.ADD_EDITED_BOOK:
 			return tassign(state, {
 				editedBook: action.editedBook

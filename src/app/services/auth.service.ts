@@ -42,14 +42,13 @@ export class AuthService {
 		return this.afAuth.auth.createUserWithEmailAndPassword(email, password)
 			.then(user => {
 				this.authState = user;
-				console.log(this.authState);
 				this.setUserData(email, userName);
 			}).catch(error => {
 				console.log(error);
 			})
 	}
 
-	setUserData(email: string, userName: string) {		
+	setUserData(email: string, userName: string) {
 		let path = `users/${this.currentUserId}`;
 		let data: IUser = {
 			email,
@@ -61,11 +60,5 @@ export class AuthService {
 		this.db.object(path).update(data)
 			.catch(error => console.log(error));
 	}
-	
-
-	// getAuthUser() {
-	// 	return this.user;
-	// }
-
 
 }

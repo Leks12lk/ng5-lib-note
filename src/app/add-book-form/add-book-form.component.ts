@@ -12,6 +12,8 @@ import { BookStatus } from "../models/book-status";
 import { EmailNotification } from "../models/emailNotification";
 import { IDateModel, ITimeModel } from "../interfaces/idatetimemodel.interfaces";
 import { EmailSendingService } from "../services/email-sending.service";
+import { UserService } from "../services/user.service";
+import { IUser } from "../interfaces/iuser.interface";
 
 @Component({
   selector: 'app-add-book-form',
@@ -36,13 +38,20 @@ export class AddBookFormComponent implements OnInit {
     sendNotification: false,
     status: BookStatus.ToRead,
     notes: ''
-  };  
+  };
+
+  userEmail: string;
+  userUid: string;
+  userName: string;
+
+  @select((s:IAppState) => s.user) user$;
 
   constructor(
     private ngRedux: NgRedux<IAppState>,    
     public activeModal: NgbActiveModal,
     private bookService: BookService,
     private emailService: EmailSendingService,
+    private userService: UserService,
     config: NgbDatepickerConfig
   ) { 
     // customize default values of datepickers used by this component tree
@@ -103,9 +112,9 @@ export class AddBookFormComponent implements OnInit {
     this.ngRedux.dispatch({type: Actions.REMOVE_EDITED_BOOK});   
   }
 
-  addBookCategory(categoryName: string) {
-    const categoriesArray = this.model.categories;
-    categoriesArray.indexOf(categoryName) === -1 ? categoriesArray.push(categoryName) : null;
+  addBookCategory(categoryName: string) {    
+    this.model.categories = this.model.categories !== undefined ? this.model.categories : [];
+    this.model.categories.indexOf(categoryName) === -1 ? this.model.categories.push(categoryName) : null;
   }
 
   removeBookCategory(categoryName: string) {
@@ -120,8 +129,16 @@ export class AddBookFormComponent implements OnInit {
   }
   
   addEmailNotification() {
-    let notification = new EmailNotification('alexa12lk@yandex.ru', 'someuid', 'aleks', this.model.title, this.model.author, this.model.notificationDateTime);
-    this.emailService.addNotification(notification);
+    this.user$.subscribe((user: IUser) => {
+      this.userEmail = user.email;
+      this.userName = user.userName;
+      this.userUid = this.userService.getUserId();
+
+      if(this.userEmail && this.userName && this.userUid) {
+        let notification = new EmailNotification(this.userEmail, this.userUid, this.userName, this.model.title, this.model.author, this.model.notificationDateTime);
+        this.emailService.addNotification(notification);
+      }
+    });    
   }
 
 

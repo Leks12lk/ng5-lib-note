@@ -12,8 +12,10 @@ import { Actions } from "../actions";
 export class UserService {
   userId: string;
   user: IUser;
-
   userRef: any;
+
+  categoriesRef: AngularFireList<any>;
+  categories$: Observable<any[]>;
 
   constructor(
     private db: AngularFireDatabase,
@@ -24,28 +26,43 @@ export class UserService {
       this.afAuth.authState.subscribe(user => {
         if(user) {
           this.userId = user.uid;
-          this.userRef = db.object(`users/${this.userId}`);
+          this.userRef = db.object(`users/${this.userId}`);          
 
           this.userRef.valueChanges().subscribe((u: IUser) => {
             if(u) {
               this.user = u;
+              let cats = !this.user.categories ? [] : this.user.categories;
               this.ngRedux.dispatch({type: Actions.LOAD_USER, user: this.user});
-              this.ngRedux.dispatch({type: Actions.LOAD_CATEGORIES, categories: this.user.categories});              
+              this.ngRedux.dispatch({type: Actions.LOAD_CATEGORIES, categories: cats});
             }
-          });
-          
+          });          
         }
       }); 
      
-    }  
-
-  addCategory(cat: string)  {
-    if (!this.userId) return;
-    this.user.categories.push(cat);
-    this.userRef.update(this.user)
-        .catch(error => console.log(error));
-
-    this.ngRedux.dispatch({type: Actions.ADD_BOOK, category: cat});
   }
+
+    getUserId() {
+      return this.userId;
+    } 
+
+    addCategory(cat: string)  {           
+      if (!this.userId) return;
+      this.user.categories = !this.user.categories ? [] : this.user.categories;
+      this.user.categories.push(cat);
+      this.userRef.update(this.user)
+        .catch(error => console.log(error));     
+    
+      this.ngRedux.dispatch({type: Actions.ADD_CATEGORY, category: cat});
+  }
+
+    removeCategory(cat: string) {    
+      if (!this.userId) return;
+      var index = this.user.categories.indexOf(cat);
+      this.user.categories.splice(index, 1);   
+      this.userRef.update(this.user)
+          .catch(error => console.log(error));
+      this.ngRedux.dispatch({type: Actions.REMOVE_CATEGORY, category: cat});
+
+    }
 
 }
