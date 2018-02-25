@@ -20,7 +20,7 @@ export class BookService {
     userId: string;
     
     booksRef: AngularFireList<any>;
-    books$: Observable<any[]>;    
+    books$: Observable<any[]>;
 
     constructor (
       private db: AngularFireDatabase,
@@ -46,10 +46,11 @@ export class BookService {
 
     }
 
-  addBook(book: Book) {
+  addBook(book: Book): string {
     if (!this.userId) return;
-    this.booksRef.push(book);
-    this.ngRedux.dispatch({type: Actions.ADD_BOOK, book: book})  
+    let key = this.booksRef.push(book).key;
+    this.ngRedux.dispatch({type: Actions.ADD_BOOK, book: book});
+    return key;
   }
 
   updateBook(book: Book) {

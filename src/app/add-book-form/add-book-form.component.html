@@ -46,10 +46,27 @@
                   <option value="high">High</option>
               </select>
             </div>
+
+            <div class="form-group">
+              <label for="priority">Status</label>
+
+              <select class="form-control"
+                [(ngModel)]="model.status"
+                id="status"
+                name="status"
+                #status="ngModel"
+                required>
+                <option value="toRead">To Read</option>
+                <option value="inProgress">In Progress</option>
+                <option value="completed">Completed</option>
+            </select>
+          </div>
+
             <div class="form-group">
               <label for="categories">Categories</label>
               <select name="categories" id="categories" class="form-control" #categories 
                     (change)="addBookCategory(categories.value)">
+                <option value=""></option>
                 <option *ngFor="let tag of categories$ | async"                        
                         [ngValue]="tag">
                   {{ tag }}

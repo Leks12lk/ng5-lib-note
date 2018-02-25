@@ -3,8 +3,7 @@ import { Priority } from "./priority";
 import { BookStatus } from "./book-status";
 
 export class Book implements IBook {
-    key?: string;
-    isRead: boolean = false;
+    key?: string;   
     sendNotification: boolean = false;
     status: BookStatus = BookStatus.ToRead;
     notificationDateTime?: Date;

@@ -13,5 +13,5 @@ export const environment = {
     storageBucket: "",
     messagingSenderId: "483547243513"
   },
-  libNoteApiUrl: '//libnoteapi.gear.host/api/notification'
+  libNoteApiUrl: '//libnoteapi.gear.host/api/notification' 
 };

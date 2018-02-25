@@ -31,7 +31,10 @@ export class UserService {
           this.userRef.valueChanges().subscribe((u: IUser) => {
             if(u) {
               this.user = u;
+              this.user.userId = this.userId;
+
               let cats = !this.user.categories ? [] : this.user.categories;
+
               this.ngRedux.dispatch({type: Actions.LOAD_USER, user: this.user});
               this.ngRedux.dispatch({type: Actions.LOAD_CATEGORIES, categories: cats});
             }
