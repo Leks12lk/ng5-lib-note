@@ -34,7 +34,7 @@ export function rootReducer(state, action) {
 		case Actions.REMOVE_BOOK:
 			return tassign(state, {
 				books: state.books.filter(b => b.key !== state.editedBook.key),
-        filteredBooks: state.filteredBooks.filter(b => b.key !== state.editedBook.key),
+        		filteredBooks: state.filteredBooks.filter(b => b.key !== state.editedBook.key),
 				lastUpdate: new Date()
 			});
 		case Actions.TOGGLE_READ_STATUS:

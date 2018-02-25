@@ -7,6 +7,7 @@ import { IAppState } from "../store";
 import { AngularFireAuth } from "angularfire2/auth";
 import { AuthService } from "./auth.service";
 import { Actions } from "../actions";
+import * as firebase from 'firebase/app';
 
 @Injectable()
 export class UserService {
@@ -66,6 +67,28 @@ export class UserService {
           .catch(error => console.log(error));
       this.ngRedux.dispatch({type: Actions.REMOVE_CATEGORY, category: cat});
 
+    }
+
+    updateUserName(userName: string) {
+      if(!userName) return;
+      this.user.userName = userName;
+      
+      // update user info
+      this.userRef.update(this.user)
+        .catch(error => console.log(error));
+
+    }
+
+    updateUserEmail(oldEmail: string, newEmail: string, password: string) {
+      if(!oldEmail || !newEmail || !password) return;     
+      this.user.email = newEmail;   
+      
+      // update user info
+      this.userRef.update(this.user)
+        .catch(error => console.log(error));
+
+      // update user email in Authentication 
+      this.authService.updateEmail(oldEmail, newEmail, password);
     }
 
 }

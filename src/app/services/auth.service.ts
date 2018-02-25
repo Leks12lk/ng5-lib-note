@@ -61,4 +61,23 @@ export class AuthService {
 			.catch(error => console.log(error));
 	}
 
+	updateEmail(oldEmail: string, newEmail: string, password: string) {
+		if(!oldEmail || !newEmail || !password) return;
+		this.afAuth.auth.signInWithEmailAndPassword(oldEmail, password)
+			.then(resolve => {
+				var user = firebase.auth().currentUser;	
+				
+				user.updateEmail(newEmail).then(function() {
+				// Update successful.
+				console.log('Update successful');
+				}).catch(function(error) {
+				// An error happened.
+				console.log(' An error happened', error);
+				});
+			});
+		
+	}
+
+	
+
 }
