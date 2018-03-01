@@ -6,6 +6,8 @@ import { UserService } from "../services/user.service";
 import { IUser } from "../interfaces/iuser.interface";
 import { IBook } from "../interfaces/ibook.interface";
 import { BookService } from "../services/book.service";
+import { AuthService } from "../services/auth.service";
+import { Router } from "@angular/router";
 
 @Component({
   selector: 'app-user-profile',
@@ -30,8 +32,16 @@ export class UserProfileComponent implements OnInit {
   constructor(
     private userService: UserService, 
     private ngRedux: NgRedux<IAppState>,
-    private booksService: BookService
-  ) {}
+    private booksService: BookService,
+    private authService: AuthService,
+    private router: Router
+  ) {
+    this.authService.authUser().subscribe(user => {
+      if(!user) {       
+        this.router.navigate(['login']);
+      }
+    });
+  }
 
   ngOnInit() {
     this.user$.subscribe((user: IUser) => {

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from "../services/auth.service";
 import { NgStyle } from '@angular/common';
 import { UserService } from "../services/user.service";
+import { Router } from "@angular/router";
 
 @Component({
   selector: 'app-login-form',
@@ -15,11 +16,17 @@ export class LoginFormComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
-    private userService: UserService
-    ) { }
+    private userService: UserService,
+    private router: Router
+    ) {
+      this.authService.authUser().subscribe(user => {
+        if(user) {       
+          this.router.navigate(['books']);
+        }
+      });
+     }
 
-  ngOnInit() {
- 
+  ngOnInit() { 
   }
 
   login() {

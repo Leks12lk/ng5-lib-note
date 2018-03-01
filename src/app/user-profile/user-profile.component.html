@@ -1,5 +1,40 @@
 <div class="container">
   <div class="row">
+      <div class="col-md-6">
+          <div class="card">
+              <div class="card-header">
+                  <h5 class="card-title">Your Categories</h5>
+              </div>        
+              <div class="card-body">
+                <ul class="list-group">
+                  <li *ngFor="let cat of categories$ | async" class="list-group-item">
+                    {{ cat }}
+                    <i class="fa fa-close text-danger pull-right" 
+                    (click)="removeCategory(cat)"
+                    title="Delete Category"></i>
+                  </li>
+                </ul>
+  
+                <hr *ngIf="(categories$ | async)?.length > 0">
+                
+                <form #categoryForm="ngForm" (submit)="addCategory(categoryForm)">
+                    <div class="form-group">
+                        <label for="category">New Category</label>
+                
+                        <input type="text" 
+                        class="form-control" 
+                        [(ngModel)]="category"
+                        id="category"
+                        name="category"
+                        placeholder="category"
+                        required>          
+                    </div>   
+                
+                  </form>
+              </div>
+            </div>
+      </div>
+
     <div class="col-md-6">
       <div class="card">
         <div class="card-header">
@@ -57,44 +92,6 @@
         </div>
       </div>
     </div>
-
-    <div class="col-md-6">
-        <div class="card">
-            <div class="card-header">
-                <h5 class="card-title">Your Categories</h5>
-            </div>        
-            <div class="card-body">
-              <ul class="list-group">
-                <li *ngFor="let cat of categories$ | async" class="list-group-item">
-                  {{ cat }}
-                  <i class="fa fa-close text-danger pull-right" 
-                  (click)="removeCategory(cat)"
-                  title="Delete Category"></i>
-                </li>
-              </ul>
-
-              <hr *ngIf="(categories$ | async)?.length > 0">
-              
-              <form #categoryForm="ngForm" (submit)="addCategory(categoryForm)">
-                  <div class="form-group">
-                      <label for="category">New Category</label>
-              
-                      <input type="text" 
-                      class="form-control" 
-                      [(ngModel)]="category"
-                      id="category"
-                      name="category"
-                      placeholder="category"
-                      required>          
-                  </div>   
-              
-                </form>
-            </div>
-          </div>
-    </div>
-      
-     
-
    
   </div>
 </div>

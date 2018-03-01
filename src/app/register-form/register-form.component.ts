@@ -18,7 +18,13 @@ export class RegisterFormComponent implements OnInit {
     private authService: AuthService, 
     private router: Router,
     private userService: UserService
-  ) { }
+  ) {
+    this.authService.authUser().subscribe(user => {
+      if(user) {       
+        this.router.navigate(['books']);
+      }
+    });
+   }
 
   ngOnInit() {
   }

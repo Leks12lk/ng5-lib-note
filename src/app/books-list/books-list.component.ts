@@ -9,6 +9,8 @@ import { Priority } from "../models/priority";
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmationModalComponent } from '../confirmation-modal/confirmation-modal.component';
 import { AddBookFormComponent } from "../add-book-form/add-book-form.component";
+import { AuthService } from "../services/auth.service";
+import { Router } from "@angular/router";
 
 @Component({
   selector: 'app-books-list',
@@ -34,7 +36,18 @@ export class BooksListComponent implements OnInit {
   constructor(
     private ngRedux: NgRedux<IAppState>,
     private modalService: NgbModal,
-    private bookService: BookService) { }
+    private bookService: BookService,
+    private authService: AuthService,
+    private router: Router
+  ) { 
+  
+      this.authService.authUser().subscribe(user => {
+        if(!user) {       
+          this.router.navigate(['login']);
+        }
+      });
+      
+    }
 
   ngOnInit() {
      this.filteredBooks$.subscribe(books => {
@@ -43,7 +56,7 @@ export class BooksListComponent implements OnInit {
        } else {
         this.books = books.filter(b => b.status.toString() === this.activeTab);
        }
-     });
+     });     
   }
 
   getConfirmation(book) {

@@ -15,19 +15,12 @@ export class NavbarComponent implements OnInit {
   user: Observable<firebase.User>;
   @select((s:IAppState) => s.user) user$;
   logo: string = "assets/image/beta-logo.png";
-  logoRoute: string = "/login";
+  logoRoute: string = "/books";
   userEmail: string;
 
   constructor(private authService: AuthService, private ngRedux: NgRedux<IAppState>) { }
 
-  ngOnInit() {
-    // this.user = this.authService.authUser();
-    // this.user.subscribe(user => {
-    //   if (user) {
-    //     this.userEmail = user.email;
-    //     this.logoRoute = "/books";
-    //   }
-    // });
+  ngOnInit() {   
   }
 
   logout() {
