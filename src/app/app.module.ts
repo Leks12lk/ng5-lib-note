@@ -35,6 +35,7 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { SearchBlockComponent } from './search-block/search-block.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { ConfirmationModalComponent } from './confirmation-modal/confirmation-modal.component';
+import { ExceptionComponent } from './exception/exception.component';
 
 
 
@@ -50,7 +51,8 @@ import { ConfirmationModalComponent } from './confirmation-modal/confirmation-mo
     NavbarComponent,
     SearchBlockComponent,
     UserProfileComponent,
-    ConfirmationModalComponent
+    ConfirmationModalComponent,
+    ExceptionComponent
   ],
   entryComponents: [
     ConfirmationModalComponent, 

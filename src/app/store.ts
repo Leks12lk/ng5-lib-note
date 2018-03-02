@@ -1,6 +1,5 @@
 import { IUser } from "./interfaces/iuser.interface";
 import { IBook } from "./interfaces/ibook.interface";
-//import { Books } from "./mockdata/books";
 import { Actions } from "./actions";
 import { tassign } from 'tassign';
 import {Priority} from './models/priority';
@@ -11,7 +10,8 @@ export interface IAppState {
 	categories: string[],
 	lastUpdate: Date,
 	filteredBooks: IBook[],
-	editedBook: IBook
+	editedBook: IBook,
+	exception: string
 }
 
 export const INITIAL_STATE: IAppState = {
@@ -20,7 +20,8 @@ export const INITIAL_STATE: IAppState = {
 	categories: [],
 	lastUpdate: new Date(),
 	filteredBooks: [],
-	editedBook: null
+	editedBook: null,
+	exception: 'Test error'
 };
 
 export function rootReducer(state, action) {
@@ -36,29 +37,7 @@ export function rootReducer(state, action) {
 				books: state.books.filter(b => b.key !== state.editedBook.key),
         		filteredBooks: state.filteredBooks.filter(b => b.key !== state.editedBook.key),
 				lastUpdate: new Date()
-			});
-		case Actions.TOGGLE_READ_STATUS:
-			var book = state.books.find(b => b.id === action.id);
-			var index = state.books.indexOf(book);
-			return tassign(state, {
-				books: [
-					...state.books.slice(0, index),
-					tassign(book, {isRead: !book.isRead}),
-					...state.books.slice(index+1)
-				],
-				lastUpdated: new Date()
-			});
-		case Actions.TOGGLE_SEND_NOTIFICATION:
-			var book = state.books.find(b => b.id === action.id);
-			var index = state.books.indexOf(book);
-			return tassign(state, {
-				books: [
-					...state.books.slice(0, index),
-					tassign(book, {sendNotification: !book.sendNotification}),
-					...state.books.slice(index+1)
-				],
-				lastUpdated: new Date()
-			});
+			});	
 		case Actions.LOAD_BOOKS:
 			return tassign(state, {
 			  	books: action.books,
@@ -105,6 +84,15 @@ export function rootReducer(state, action) {
 		case Actions.REMOVE_USER:
 			return tassign(state, {
 				user: null
+			});
+
+		case Actions.ADD_EXCEPTION:
+			return tassign(state, {
+				exception: action.exception
+			});
+		case Actions.REMOVE_EXCEPTION:		
+			return tassign(state, {
+				exception: null
 			});
 
 	}
