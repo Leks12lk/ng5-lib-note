@@ -48,4 +48,11 @@ export class SearchBlockComponent implements OnInit {
   ifSelected(target: string) {
     return this.selectedCategories.indexOf(target) === -1 ? "btn-primary" : "btn-success";
   }
+
+  resetSearch() {
+    this.textTerm = '';
+    this.priorityTerm = ''; 
+    this.selectedCategories = [];
+    this.filterBook();
+  }
 }
