@@ -3,3 +3,13 @@
         min-width: 58px;
     }
 }
+
+.books-container {
+    overflow: auto;
+
+    & th {
+        @media(min-width: 360px) {
+            font-size: 12px;
+        }
+    }
+}

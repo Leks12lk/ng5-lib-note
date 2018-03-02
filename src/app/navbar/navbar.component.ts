@@ -18,6 +18,8 @@ export class NavbarComponent implements OnInit {
   logoRoute: string = "/books";
   userEmail: string;
 
+  isNavbarCollapsed: boolean = true;
+
   constructor(private authService: AuthService, private ngRedux: NgRedux<IAppState>) { }
 
   ngOnInit() {   

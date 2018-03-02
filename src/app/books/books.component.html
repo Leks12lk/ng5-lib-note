@@ -5,7 +5,7 @@
       <button class="btn btn-primary" id="addButton" (click)="showAddBookModal()">Add Book</button>
       <hr>
 
-      <ngb-tabset>
+      <ngb-tabset class="book-tabs">
          <ngb-tab title="All">
           <ng-template ngbTabContent>
             <app-books-list [activeTab]="'all'"></app-books-list>

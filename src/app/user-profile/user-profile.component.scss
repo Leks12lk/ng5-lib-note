@@ -11,3 +11,9 @@
 .pointer {
     cursor: pointer;
 }
+
+@media(max-width: 480px) {
+    .card {
+        margin-bottom: 30px;
+    }
+}

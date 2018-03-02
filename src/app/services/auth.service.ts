@@ -5,6 +5,9 @@ import { AngularFireDatabase } from 'angularfire2/database';
 import * as firebase from 'firebase/app';
 import { Observable } from 'rxjs/observable';
 import { IUser } from "../interfaces/iuser.interface";
+import { NgRedux } from "@angular-redux/store";
+import { IAppState } from "../store";
+import { Actions } from "../actions";
 
 @Injectable()
 export class AuthService { 
@@ -13,7 +16,9 @@ export class AuthService {
 
 	constructor(private afAuth: AngularFireAuth, 
 		private db: AngularFireDatabase, 
-		private router: Router) {
+		private router: Router,
+		private ngRedux: NgRedux<IAppState>
+	) {
 			this.user = this.afAuth.authState;
 		 }
 
@@ -31,6 +36,10 @@ export class AuthService {
 				// here will be navigate to books list page
 				this.router.navigate(['books']);
 			})
+			.catch(error => {
+				console.log(error);
+				this.ngRedux.dispatch({type: Actions.ADD_EXCEPTION, exception: error.message});
+			});
 	}
 
 	logout() {
@@ -43,9 +52,11 @@ export class AuthService {
 			.then(user => {
 				this.authState = user;
 				this.setUserData(email, userName);
+				this.router.navigate(['books']);
 			}).catch(error => {
 				console.log(error);
-			})
+				this.ngRedux.dispatch({type: Actions.ADD_EXCEPTION, exception: error.message});
+			});
 	}
 
 	setUserData(email: string, userName: string) {
@@ -70,9 +81,9 @@ export class AuthService {
 				user.updateEmail(newEmail).then(function() {
 				// Update successful.
 				console.log('Update successful');
-				}).catch(function(error) {
-				// An error happened.
-				console.log(' An error happened', error);
+				}).catch(error => {
+					console.log(error);
+					this.ngRedux.dispatch({type: Actions.ADD_EXCEPTION, exception: error.message});
 				});
 			});
 		

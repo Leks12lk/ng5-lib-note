@@ -29,6 +29,12 @@
     background: #007bff;
     opacity: .65;
     position: relative;
+    float: right;
+    
+    @media(max-width:480px) {
+      float: none;
+      margin: 0 auto;
+    }
 
     & .icon {
       font-size: 40px; 
