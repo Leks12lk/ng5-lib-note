@@ -21,7 +21,7 @@ export const INITIAL_STATE: IAppState = {
 	lastUpdate: new Date(),
 	filteredBooks: [],
 	editedBook: null,
-	exception: 'Test error'
+	exception: null
 };
 
 export function rootReducer(state, action) {
