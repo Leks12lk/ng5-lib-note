@@ -86,9 +86,12 @@
                       placeholder="Password..."
                       [(ngModel)]="password">
              </div>
-             <a class="btn btn-success btn-sm save-btn"  *ngIf="editEmailMode" (click)="editProperty('email')">
-                Ok
-            </a>
+             <button class="btn btn-success btn-sm save-btn"  *ngIf="editEmailMode" (click)="editProperty('email')">
+                <i class="fa fa-check"></i> 
+            </button>
+            <button class="btn btn-default btn-sm"  *ngIf="editEmailMode" (click)="editProperty('email')">
+                <i class="fa fa-times"></i>                
+            </button>
         </div>
       </div>
     </div>
